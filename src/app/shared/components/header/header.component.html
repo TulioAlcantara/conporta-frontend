@@ -1,12 +1,27 @@
-<mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <mat-icon>video_camera_front</mat-icon>
-        <span>
-            Proctoring
-        </span>
-        <span class="spacer"></span>
-        <!-- <button mat-icon-button (click)="logoutUser()" *ngIf="isLoggedIn$ | async">
-            <mat-icon>logout</mat-icon>
-        </button> -->
-    </mat-toolbar-row>
-</mat-toolbar>
+<!-- <mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon>video_camera_front</mat-icon>
+    <span> conporta </span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar> -->
+
+<nav mat-tab-nav-bar>
+  <p>teste</p>
+
+  <a
+    mat-tab-link
+    *ngFor="let link of links"
+    [routerLink]="link.path"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    [active]="rla.isActive"
+  >
+    {{ link.label }}
+  </a>
+  <mat-icon>logout</mat-icon>
+</nav>

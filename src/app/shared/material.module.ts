@@ -11,23 +11,25 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-    declarations: [],
-    imports: [],
-    exports: [
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCardModule,
-        MatTableModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatDialogModule,
-        MatProgressSpinnerModule,
-    ]
+  declarations: [],
+  imports: [],
+  exports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
