@@ -1,27 +1,21 @@
-<!-- <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <mat-icon>video_camera_front</mat-icon>
-    <span> conporta </span>
-    <span class="spacer"></span>
-    <button mat-icon-button>
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar> -->
+<nav mat-tab-nav-bar back [color]="'white'" [backgroundColor]="'primary'">
+  <img class="ufg-logo" src="assets/ufg-logo.svg" />
 
-<nav mat-tab-nav-bar>
-  <p>teste</p>
+  <div *ngIf="isLoggedIn$ | async">
+    <a
+      mat-tab-link
+      *ngFor="let link of links"
+      [routerLink]="link.path"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [active]="rla.isActive"
+    >
+      <b>{{ link.label }}</b>
+    </a>
+  </div>
 
-  <a
-    mat-tab-link
-    *ngFor="let link of links"
-    [routerLink]="link.path"
-    routerLinkActive
-    #rla="routerLinkActive"
-    [routerLinkActiveOptions]="{ exact: true }"
-    [active]="rla.isActive"
-  >
-    {{ link.label }}
-  </a>
-  <mat-icon>logout</mat-icon>
+  <button mat-icon-button (click)="logoutUser()" *ngIf="isLoggedIn$ | async">
+    <mat-icon class="logout-btn-icon">logout</mat-icon>
+  </button>
 </nav>

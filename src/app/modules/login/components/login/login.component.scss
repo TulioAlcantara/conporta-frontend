@@ -1,0 +1,43 @@
+@import '/src/styles.scss';
+
+.login {
+  text-align: center;
+
+  mat-card {
+    border-top: 3px solid $primary;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+
+    .card-title {
+      font-weight: bold;
+    }
+
+    @media only screen and (max-width: 768px) {
+      max-width: 100%;
+    }
+
+    mat-card-content {
+      padding: 0 5rem;
+
+      @media only screen and (max-width: 768px) {
+        padding: 0;
+      }
+    }
+
+    mat-form-field {
+      margin-bottom: 1rem;
+    }
+
+    mat-form-field,
+    button {
+      width: 100%;
+    }
+
+    button {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  }
+}

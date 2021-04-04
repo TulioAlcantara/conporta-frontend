@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './auth/auth-guard.service';
 // import { AuthGuardService } from './core/auth-guard.service';
 
 const routes: Routes = [
@@ -16,16 +17,18 @@ const routes: Routes = [
     path: 'portarias',
     loadChildren: () =>
       import('./modules/ordinances/ordinances.module').then((m) => m.OrdinancesModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: 'unidades-administrativas',
     loadChildren: () =>
-      import('./modules/ordinances/ordinances.module').then((m) => m.OrdinancesModule),
+      import('./modules/admin-units/admin-units.module').then((m) => m.AdminUnitsModule),
+    canActivate: [AuthGuardService],
   },
   {
     path: 'pessoas',
-    loadChildren: () =>
-      import('./modules/ordinances/ordinances.module').then((m) => m.OrdinancesModule),
+    loadChildren: () => import('./modules/profiles/profiles.module').then((m) => m.ProfilesModule),
+    canActivate: [AuthGuardService],
   },
 ];
 

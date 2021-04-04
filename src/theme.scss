@@ -1,0 +1,73 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$mat-conporta-primary: (
+  50: #e4f2fe,
+  100: #bce0fb,
+  200: #90cbf9,
+  300: #63b6f7,
+  400: #41a6f5,
+  500: #2096f3,
+  600: #1c8ef1,
+  700: #1883ef,
+  800: #1379ed,
+  900: #0b68ea,
+  A100: #ffffff,
+  A200: #e1ecff,
+  A400: #aeccff,
+  A700: #95bcff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$mat-conporta-accent: (
+  50: #fef7e3,
+  100: #feebba,
+  200: #fddd8c,
+  300: #fccf5d,
+  400: #fbc53b,
+  500: #fabb18,
+  600: #f9b515,
+  700: #f9ac11,
+  800: #f8a40e,
+  900: #f69608,
+  A100: #ffffff,
+  A200: #fff6eb,
+  A400: #ffe0b8,
+  A700: #ffd49f,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$primary: mat-palette($mat-conporta-primary);
+$accent: mat-palette($mat-conporta-accent);
+$conporta-theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($conporta-theme);

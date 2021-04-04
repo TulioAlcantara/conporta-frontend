@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  // links = ['First', 'Second', 'Third'];
-  // activeLink = this.links[0];
+  isLoggedIn$: Observable<boolean> = new Observable<boolean>();
 
   links = [
     { path: 'portarias', label: 'PORTARIAS' },
@@ -15,7 +17,14 @@ export class HeaderComponent implements OnInit {
     { path: 'pessoas', label: 'PESSOAS' },
   ];
 
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+  }
+
+  logoutUser(): void {
+    this.authService.logoutUser();
+    this.router.navigate(['/login']);
+  }
 }
