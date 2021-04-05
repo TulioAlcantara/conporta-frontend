@@ -7,7 +7,7 @@ import { OrdinancesService } from './ordinances.service';
 
 @NgModule({
   declarations: [OrdinancesListComponent],
-  imports: [SharedModule, OrdinancesRoutingModule],
+  imports: [CommonModule, SharedModule, OrdinancesRoutingModule],
   providers: [OrdinancesService],
 })
 export class OrdinancesModule {}

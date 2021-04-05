@@ -15,7 +15,7 @@
     </a>
   </div>
 
-  <button mat-icon-button (click)="logoutUser()" *ngIf="isLoggedIn$ | async">
+  <button class="logout-btn" mat-icon-button (click)="logoutUser()" *ngIf="isLoggedIn$ | async">
     <mat-icon class="logout-btn-icon">logout</mat-icon>
   </button>
 </nav>
