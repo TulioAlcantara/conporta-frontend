@@ -6,6 +6,7 @@ import {
   AdminUnit,
   AdminUnitMember,
   PartialAdminUnit,
+  PartialAdminUnitMember,
 } from '../../shared/models/admin-unit';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
 import { Profile } from '../../shared/models/profile';
@@ -64,6 +65,13 @@ export class AdminUnitsService {
     return this.http.get<Profile[]>(
       `${environment.apiBaseUrl}/adminunit/${adminUnitId}/non_member_profiles/`,
       { params: params }
+    );
+  }
+
+  saveNewMember(newMember: PartialAdminUnitMember) {
+    return this.http.post<PartialAdminUnitMember>(
+      `${environment.apiBaseUrl}/adminunitmember/`,
+      newMember
     );
   }
 }

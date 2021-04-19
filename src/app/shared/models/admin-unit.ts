@@ -10,10 +10,6 @@ export class AdminUnit {
   last_ordinance: number = 0;
   ordinances: [] = [];
   members: [] = [];
-
-  public constructor(init?: Partial<AdminUnit>) {
-    Object.assign(this, init);
-  }
 }
 
 export class PartialAdminUnit {
@@ -37,6 +33,17 @@ export class AdminUnitMember {
   description: string = '';
   admin_unit: number = 0;
   profile: Profile = new Profile();
+}
+
+export class PartialAdminUnitMember {
+  id: number = 0;
+  is_boss: boolean = false;
+  start_date: string = '';
+  end_date: string = '';
+  type: number = 0;
+  description: string = '';
+  admin_unit: number = 0;
+  profile: number = 0;
 
   public constructor(init?: Partial<AdminUnitMember>) {
     Object.assign(this, init);

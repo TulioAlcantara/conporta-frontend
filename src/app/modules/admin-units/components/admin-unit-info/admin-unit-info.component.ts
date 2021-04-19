@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Console } from 'node:console';
 import { debounceTime } from 'rxjs/operators';
 import {
   AdminUnit,
@@ -9,6 +10,7 @@ import {
   AdminUnitMemberType,
   AdminUnitTypeEnum,
   PartialAdminUnit,
+  PartialAdminUnitMember,
 } from '../../../../shared/models/admin-unit';
 import { Profile } from '../../../../shared/models/profile';
 import { AdminUnitsService } from '../../admin-units.service';
@@ -144,10 +146,17 @@ export class AdminUnitInfoComponent implements OnInit {
   }
 
   saveNewMember(): void {
-    let newMember = new AdminUnitMember(this.newAdminUnitMemberFormGroup.value);
+    let newMember = new PartialAdminUnitMember(
+      this.newAdminUnitMemberFormGroup.value
+    );
     newMember.admin_unit = this.adminUnitId;
-    console.log(newMember);
-    this.isAddingMember = false;
+    this.adminUnitsService.saveNewMember(newMember).subscribe(() => {
+      this.snackBar.open('Novo membro adicionado com sucesso!', 'FECHAR', {
+        duration: 5000,
+      });
+      this.isAddingMember = false;
+      //TODO: Recarregar a lista de membros aqui!
+    });
   }
 
   cancelNewMember(): void {
