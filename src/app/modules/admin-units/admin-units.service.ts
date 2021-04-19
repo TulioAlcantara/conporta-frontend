@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AdminUnit, PartialAdminUnit } from '../../shared/models/admin-unit';
+import {
+  AdminUnit,
+  AdminUnitMember,
+  PartialAdminUnit,
+} from '../../shared/models/admin-unit';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
 
 @Injectable({
@@ -11,9 +15,14 @@ import { PaginatedResponse } from '../../shared/models/paginated_response';
 export class AdminUnitsService {
   constructor(private http: HttpClient) {}
 
-  loadAllAdminUnits(): Observable<PaginatedResponse<AdminUnit>> {
+  loadAllAdminUnits(
+    searchFilter?: string
+  ): Observable<PaginatedResponse<AdminUnit>> {
+    let params = new HttpParams();
+    if (searchFilter) params = params.append('search', searchFilter);
     return this.http.get<PaginatedResponse<AdminUnit>>(
-      `${environment.apiBaseUrl}/adminunit/`
+      `${environment.apiBaseUrl}/adminunit/`,
+      { params: params }
     );
   }
 
@@ -37,7 +46,11 @@ export class AdminUnitsService {
     );
   }
 
-  loadMembers(adminUnitId: number): Observable<any> {
-    throw new Error('Method not implemented.');
+  loadMembers(
+    adminUnitId: number
+  ): Observable<PaginatedResponse<AdminUnitMember>> {
+    return this.http.get<PaginatedResponse<AdminUnitMember>>(
+      `${environment.apiBaseUrl}/adminunit/${adminUnitId}/members/`
+    );
   }
 }

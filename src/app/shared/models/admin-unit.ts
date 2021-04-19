@@ -1,3 +1,5 @@
+import { Profile } from './profile';
+
 export class AdminUnit {
   id: number = 0;
   name: string = '';
@@ -28,12 +30,13 @@ export class PartialAdminUnit {
 
 export class AdminUnitMember {
   id: number = 0;
+  is_boss: boolean = false;
   start_date: string = '';
   end_date: string = '';
   type: number = 0;
   description: string = '';
   admin_unit: number = 0;
-  profile: number = 0;
+  profile: Profile = new Profile();
 }
 
 export enum AdminUnitTypeEnum {
@@ -52,5 +55,5 @@ export enum AdminUnitMemberType {
   'DOCENTE' = 1,
   'ESTAGIARIO' = 2,
   'ESTUDANTE' = 3,
-  'TECNICO ADMINISTRATIVO' = 4,
+  'TÉCNICO ADMINISTRATIVO' = 4,
 }

@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [],
@@ -32,6 +33,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatDividerModule,
   ],
 })
 export class MaterialModule {}

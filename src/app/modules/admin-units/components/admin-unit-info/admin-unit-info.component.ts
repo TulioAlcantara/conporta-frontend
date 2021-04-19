@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import {
   AdminUnit,
+  AdminUnitMember,
+  AdminUnitMemberType,
   AdminUnitTypeEnum,
   PartialAdminUnit,
 } from '../../../../shared/models/admin-unit';
@@ -20,6 +22,16 @@ export class AdminUnitInfoComponent implements OnInit {
   adminUnitTypeEnum = AdminUnitTypeEnum;
   keys = Object.keys;
   selectedAdminUnit: AdminUnit = new AdminUnit();
+  adminUnitMembers: AdminUnitMember[] = [];
+  displayedColumns: string[] = [
+    'id',
+    'profile_name',
+    'type',
+    'is_boss',
+    'start_date',
+    'end_date',
+  ];
+  adminUnitMemberType = AdminUnitMemberType;
   adminUnitFormGroup = this.formBuilder.group({
     id: [''],
     name: ['', Validators.required],
@@ -62,7 +74,8 @@ export class AdminUnitInfoComponent implements OnInit {
     this.adminUnitsService
       .loadMembers(this.adminUnitId)
       .subscribe((adminUnitMembers) => {
-        console.log(adminUnitMembers);
+        this.adminUnitMembers = adminUnitMembers.results;
+        console.log(this.adminUnitMembers);
       });
   }
 

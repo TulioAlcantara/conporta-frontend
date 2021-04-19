@@ -2,15 +2,8 @@
   <img class="ufg-logo" src="assets/ufg-logo.svg" />
 
   <div *ngIf="isLoggedIn$ | async">
-    <a
-      mat-tab-link
-      *ngFor="let link of links"
-      [routerLink]="link.path"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [routerLinkActiveOptions]="{ exact: true }"
-      [active]="rla.isActive"
-    >
+    <a mat-tab-link *ngFor="let link of links" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
       <b>{{ link.label }}</b>
     </a>
   </div>
