@@ -8,6 +8,7 @@ import {
   PartialAdminUnit,
 } from '../../shared/models/admin-unit';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
+import { Profile } from '../../shared/models/profile';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,18 @@ export class AdminUnitsService {
   ): Observable<PaginatedResponse<AdminUnitMember>> {
     return this.http.get<PaginatedResponse<AdminUnitMember>>(
       `${environment.apiBaseUrl}/adminunit/${adminUnitId}/members/`
+    );
+  }
+
+  loadProfilesThatArentMembers(
+    adminUnitId: number,
+    searchFilter?: string
+  ): Observable<Profile[]> {
+    let params = new HttpParams();
+    if (searchFilter) params = params.append('search', searchFilter);
+    return this.http.get<Profile[]>(
+      `${environment.apiBaseUrl}/adminunit/${adminUnitId}/non_member_profiles/`,
+      { params: params }
     );
   }
 }

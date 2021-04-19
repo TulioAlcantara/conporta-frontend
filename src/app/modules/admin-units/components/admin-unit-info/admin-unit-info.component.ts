@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 import {
   AdminUnit,
   AdminUnitMember,
@@ -9,6 +10,7 @@ import {
   AdminUnitTypeEnum,
   PartialAdminUnit,
 } from '../../../../shared/models/admin-unit';
+import { Profile } from '../../../../shared/models/profile';
 import { AdminUnitsService } from '../../admin-units.service';
 
 @Component({
@@ -17,12 +19,14 @@ import { AdminUnitsService } from '../../admin-units.service';
   styleUrls: ['./admin-unit-info.component.scss'],
 })
 export class AdminUnitInfoComponent implements OnInit {
+  keys = Object.keys;
   isLoading: boolean = true;
+  isAddingMember: boolean = false;
   adminUnitId: number = 0;
   adminUnitTypeEnum = AdminUnitTypeEnum;
-  keys = Object.keys;
   selectedAdminUnit: AdminUnit = new AdminUnit();
   adminUnitMembers: AdminUnitMember[] = [];
+  nonMemberProfilesOptions: Profile[] = [];
   displayedColumns: string[] = [
     'id',
     'profile_name',
@@ -39,6 +43,14 @@ export class AdminUnitInfoComponent implements OnInit {
     type: ['', Validators.required],
     year: ['', Validators.required],
   });
+  newAdminUnitMemberFormGroup = this.formBuilder.group({
+    profile: ['', Validators.required],
+    is_boss: ['', Validators.required],
+    start_date: ['', Validators.required],
+    end_date: ['', Validators.required],
+    type: ['', Validators.required],
+    description: ['', Validators.required],
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +60,7 @@ export class AdminUnitInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.subscribeProfileAutoComplete();
     this.route.params.subscribe((params) => {
       this.adminUnitId = +params['id'];
 
@@ -112,5 +125,50 @@ export class AdminUnitInfoComponent implements OnInit {
       });
 
     return;
+  }
+
+  addMember(): void {
+    this.isAddingMember = true;
+    this.adminUnitsService
+      .loadProfilesThatArentMembers(this.adminUnitId)
+      .subscribe((profiles) => {
+        if (!profiles) {
+          this.snackBar.open('Nenhum perfil encontrado!', 'FECHAR', {
+            duration: 5000,
+          });
+          this.isAddingMember = false;
+          return;
+        }
+        this.nonMemberProfilesOptions = profiles;
+      });
+  }
+
+  saveNewMember(): void {
+    let newMember = new AdminUnitMember(this.newAdminUnitMemberFormGroup.value);
+    newMember.admin_unit = this.adminUnitId;
+    console.log(newMember);
+    this.isAddingMember = false;
+  }
+
+  cancelNewMember(): void {
+    this.newAdminUnitMemberFormGroup.reset();
+    this.isAddingMember = false;
+  }
+
+  showProfileName(profile: Profile): string {
+    if (profile) return profile.name;
+    return '';
+  }
+
+  subscribeProfileAutoComplete() {
+    this.newAdminUnitMemberFormGroup.controls.profile.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((autoCompleteInput) => {
+        this.adminUnitsService
+          .loadProfilesThatArentMembers(this.adminUnitId, autoCompleteInput)
+          .subscribe((profiles) => {
+            this.nonMemberProfilesOptions = profiles;
+          });
+      });
   }
 }

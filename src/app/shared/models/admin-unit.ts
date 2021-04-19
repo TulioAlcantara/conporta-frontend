@@ -37,6 +37,10 @@ export class AdminUnitMember {
   description: string = '';
   admin_unit: number = 0;
   profile: Profile = new Profile();
+
+  public constructor(init?: Partial<AdminUnitMember>) {
+    Object.assign(this, init);
+  }
 }
 
 export enum AdminUnitTypeEnum {

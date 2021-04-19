@@ -14,6 +14,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -34,6 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatDividerModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
   ],
 })
 export class MaterialModule {}
