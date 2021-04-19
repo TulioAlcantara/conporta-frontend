@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
-import { HeaderInterceptor } from './auth/auth.interceptor';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
@@ -23,7 +23,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   providers: [
     AuthService,
     AuthGuardService,
-    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
   bootstrap: [AppComponent],

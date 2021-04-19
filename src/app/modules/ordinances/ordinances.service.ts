@@ -11,7 +11,16 @@ import { PaginatedResponse } from '../../shared/models/paginated_response';
 })
 export class OrdinancesService {
   constructor(private http: HttpClient) {}
+
   loadAllOrdinances(): Observable<PaginatedResponse<Ordinance>> {
-    return this.http.get<PaginatedResponse<Ordinance>>(`${environment.apiBaseUrl}/ordinance/`);
+    return this.http.get<PaginatedResponse<Ordinance>>(
+      `${environment.apiBaseUrl}/ordinance/`
+    );
+  }
+
+  loadOrdinance(ordinanceId: number): Observable<Ordinance> {
+    return this.http.get<Ordinance>(
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/`
+    );
   }
 }

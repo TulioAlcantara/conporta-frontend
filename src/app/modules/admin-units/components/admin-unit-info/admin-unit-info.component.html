@@ -1,0 +1,47 @@
+<div *ngIf="!isLoading">
+    <div>
+        <h1 *ngIf="this.adminUnitId != 0">Unidade administrativa {{adminUnitId}}</h1>
+        <h1 *ngIf="this.adminUnitId == 0">Nova unidade administrativa</h1>
+
+        <form [formGroup]="adminUnitFormGroup" (ngSubmit)="saveAdminUnit()">
+            <div class="four-cols">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nome</mat-label>
+                    <input matInput type="text" formControlName="name">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Sigla</mat-label>
+                    <input matInput type="text" formControlName="initials">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let type of keys(adminUnitTypeEnum)" [value]="type">
+                            {{adminUnitTypeEnum[type]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Ano</mat-label>
+                    <input matInput type="text" formControlName="year">
+                </mat-form-field>
+            </div>
+
+            <button mat-button mat-raised-button color="primary" type="submit">
+                <mat-icon>save</mat-icon>SALVAR
+            </button>
+        </form>
+    </div>
+
+
+    <div class="mt-1">
+        <h1>Membros</h1>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="loading">
+    <mat-spinner></mat-spinner>
+</div>

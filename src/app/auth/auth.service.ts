@@ -10,7 +10,7 @@ import { UserLogin } from '../shared/models/user-login';
   providedIn: 'root',
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private Router: Router, private http: HttpClient) {}
 
@@ -32,6 +32,10 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
   }
 
   isLoggedIn(): Observable<boolean> {

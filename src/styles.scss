@@ -28,7 +28,7 @@ body {
   background-color: $container-bg;
 }
 
-.spinner {
+.loading {
   height: calc(100vh - 20px);
   display: flex;
   justify-content: center;
@@ -43,4 +43,46 @@ mat-icon {
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   height: 5px;
+}
+
+//CUSTOM CLASSES
+
+.four-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.three-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.one-col {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 1rem;
 }
