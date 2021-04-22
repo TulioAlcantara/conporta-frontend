@@ -1,31 +1,44 @@
-<h1>Portaria {{ordinanceId}}</h1>
-<form [formGroup]="ordinanceFormGroup" (ngSubmit)="saveOrdinance()">
-    <div class="form-container">
-        <mat-form-field appearance="fill">
-            <mat-label>Assunto</mat-label>
-            <textarea matInput type="text" formControlName="summary"></textarea>
-        </mat-form-field>
+<div *ngIf="!isLoading">
+    <form [formGroup]="ordinanceFormGroup" (ngSubmit)="saveOrdinance()">
+        <div class="two-cols">
+            <span>
+                <h1 *ngIf="this.ordinanceId != 0">Portaria {{ordinanceId}}</h1>
+                <h1 *ngIf="this.ordinanceId == 0">Nova Portaria</h1>
+            </span>
+            <div class="mb-1 two-cols">
+                <span></span>
+                <button mat-button mat-raised-button class="float-right" color="primary" type="submit">
+                    <mat-icon>save</mat-icon>SALVAR
+                </button>
+            </div>
+        </div>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Resumo</mat-label>
-            <textarea matInput type="text" formControlName="theme"></textarea>
-        </mat-form-field>
+        <div class="form-container">
+            <mat-form-field appearance="fill">
+                <mat-label>Assunto</mat-label>
+                <textarea matInput type="text" formControlName="summary"></textarea>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Texto completo</mat-label>
-            <textarea matInput type="text" formControlName="description"></textarea>
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Resumo</mat-label>
+                <textarea matInput type="text" formControlName="theme"></textarea>
+            </mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Período de vigência</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate formControlName="start_date" placeholder="Data inicial">
-                <input matEndDate formControlName="end_date" placeholder="Data final">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Texto completo</mat-label>
+                <textarea matInput type="text" formControlName="description"></textarea>
+            </mat-form-field>
 
-    </div>
-    <button mat-button mat-raised-button color="primary" type="submit"><b>ENVIAR</b></button>
-</form>
+            <mat-form-field appearance="fill">
+                <mat-label>Período de vigência</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="start_date" placeholder="Data inicial">
+                    <input matEndDate formControlName="end_date" placeholder="Data final">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+        </div>
+    </form>
+</div>

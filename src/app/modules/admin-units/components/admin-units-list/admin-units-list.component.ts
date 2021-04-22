@@ -21,7 +21,7 @@ export class AdminUnitsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllAdminUnits();
-    this.subscribeToNameFilter();
+    this.subscribeToSearchFilter();
   }
 
   loadAllAdminUnits() {
@@ -34,7 +34,7 @@ export class AdminUnitsListComponent implements OnInit {
       });
   }
 
-  subscribeToNameFilter() {
+  subscribeToSearchFilter() {
     this.isLoading = true;
     this.searchFilterFormControl.valueChanges
       .pipe(

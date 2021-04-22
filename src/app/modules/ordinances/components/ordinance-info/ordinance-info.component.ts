@@ -11,6 +11,8 @@ import { OrdinancesService } from '../../ordinances.service';
 })
 export class OrdinanceInfoComponent implements OnInit {
   ordinanceId: number = 0;
+  isLoading: boolean = true;
+
   selectedOrdinance: Ordinance = new Ordinance();
   ordinanceFormGroup = this.formBuilder.group({
     admin_unit_initials: ['', Validators.required],
@@ -39,7 +41,9 @@ export class OrdinanceInfoComponent implements OnInit {
       this.ordinancesService
         .loadOrdinance(this.ordinanceId)
         .subscribe((ordinance) => {
-          console.log(ordinance);
+          this.selectedOrdinance = ordinance;
+          this.ordinanceFormGroup.patchValue(this.selectedOrdinance);
+          this.isLoading = false;
         });
     });
   }

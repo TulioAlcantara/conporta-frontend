@@ -1,43 +1,41 @@
-<div>
-    <div class="two-cols">
-        <h1>Unidades Administrativas</h1>
-        <div>
-            <button mat-button mat-raised-button color="accent" class="float-right" [routerLink]="['./', 0]">
-                <mat-icon>add</mat-icon>NOVA UNIDADE ADMINISTRATIVA
-            </button>
-        </div>
+<div class="two-cols">
+    <h1>Unidades Administrativas</h1>
+    <div>
+        <button mat-button mat-raised-button color="accent" class="float-right" [routerLink]="['./', 0]">
+            <mat-icon>add</mat-icon>NOVA UNIDADE ADMINISTRATIVA
+        </button>
     </div>
-
-    <mat-form-field>
-        <mat-label>Filtro</mat-label>
-        <input [formControl]="searchFilterFormControl" matInput placeholder="Id/Nome/Sigla da unidade administrativa" />
-    </mat-form-field>
-
-    <table mat-table [dataSource]="adminUnitsList" *ngIf="!isLoading" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>Id</th>
-            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Nome</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="initials">
-            <th mat-header-cell *matHeaderCellDef>Sigla</th>
-            <td mat-cell *matCellDef="let element">{{ element.initials }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="year">
-            <th mat-header-cell *matHeaderCellDef>Ano</th>
-            <td mat-cell *matCellDef="let element">{{ element.year }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['./',row.id]"></tr>
-    </table>
 </div>
+
+<mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input [formControl]="searchFilterFormControl" matInput placeholder="Id/Nome/Sigla da unidade administrativa" />
+</mat-form-field>
+
+<table mat-table [dataSource]="adminUnitsList" *ngIf="!isLoading" class="mat-elevation-z8 conporta-table">
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="initials">
+        <th mat-header-cell *matHeaderCellDef>Sigla</th>
+        <td mat-cell *matCellDef="let element">{{ element.initials }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef>Ano</th>
+        <td mat-cell *matCellDef="let element">{{ element.year }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['./',row.id]"></tr>
+</table>
 
 
 <div *ngIf="isLoading" class="loading">

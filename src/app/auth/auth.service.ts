@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Profile } from '../shared/models/profile';
 import { UserLogin } from '../shared/models/user-login';
 
 @Injectable({
@@ -11,13 +12,15 @@ import { UserLogin } from '../shared/models/user-login';
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  public userProfile: Profile = new Profile();
 
   constructor(private Router: Router, private http: HttpClient) {}
 
   loginUser(user: UserLogin): Observable<any> {
-    return this.http
-      .post<any>(`${environment.apiBaseUrl}/login/`, user)
-      .pipe(tap((token) => this.storeToken(token.token)));
+    return this.http.post<any>(`${environment.apiBaseUrl}/login/`, user).pipe(
+      tap((token) => this.storeToken(token.token)),
+      switchMap(() => this.loadUserProfile())
+    );
   }
 
   logoutUser(): void {
@@ -40,5 +43,11 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
+  }
+
+  loadUserProfile(): Observable<Profile> {
+    return this.http.get<Profile>(
+      `${environment.apiBaseUrl}/profile/current_user_profile/`
+    );
   }
 }

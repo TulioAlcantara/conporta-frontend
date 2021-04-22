@@ -1,11 +1,18 @@
-<h1>Portarias</h1>
+<div class="two-cols">
+  <h1>Portarias</h1>
+  <div>
+    <button mat-button mat-raised-button color="accent" class="float-right" [routerLink]="['./', 0]">
+      <mat-icon>add</mat-icon>NOVA PORTARIA
+    </button>
+  </div>
+</div>
 
 <mat-form-field>
   <mat-label>Filtro</mat-label>
-  <input matInput placeholder="Identificador da portaria" />
+  <input matInput [formControl]="searchFilterFormControl" placeholder="Identificador da portaria" />
 </mat-form-field>
 
-<table mat-table [dataSource]="ordinancesList" class="mat-elevation-z8">
+<table mat-table [dataSource]="ordinancesList" class="mat-elevation-z8 conporta-table">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>Id</th>
     <td mat-cell *matCellDef="let element">{{ element.id }}</td>
@@ -26,3 +33,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="['./',row.id]"></tr>
 </table>
+
+<div *ngIf="isLoading" class="loading">
+  <mat-spinner></mat-spinner>
+</div>

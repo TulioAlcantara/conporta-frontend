@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -12,9 +12,14 @@ import { PaginatedResponse } from '../../shared/models/paginated_response';
 export class OrdinancesService {
   constructor(private http: HttpClient) {}
 
-  loadAllOrdinances(): Observable<PaginatedResponse<Ordinance>> {
+  loadAllOrdinances(
+    searchFilter?: string
+  ): Observable<PaginatedResponse<Ordinance>> {
+    let params = new HttpParams();
+    if (searchFilter) params = params.append('search', searchFilter);
     return this.http.get<PaginatedResponse<Ordinance>>(
-      `${environment.apiBaseUrl}/ordinance/`
+      `${environment.apiBaseUrl}/ordinance/`,
+      { params: params }
     );
   }
 
