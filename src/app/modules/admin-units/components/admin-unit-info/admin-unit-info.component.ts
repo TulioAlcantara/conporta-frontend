@@ -33,6 +33,7 @@ export class AdminUnitInfoComponent implements OnInit {
     'profile_name',
     'type',
     'is_boss',
+    'description',
     'start_date',
     'end_date',
   ];
@@ -52,6 +53,10 @@ export class AdminUnitInfoComponent implements OnInit {
     type: ['', Validators.required],
     description: ['', Validators.required],
   });
+
+  get isNewAdminUnit() {
+    return !!!this.selectedAdminUnit.id;
+  }
 
   constructor(
     private route: ActivatedRoute,

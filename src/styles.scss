@@ -59,6 +59,7 @@ mat-icon {
   gap: 1rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
@@ -68,6 +69,7 @@ mat-icon {
   gap: 1rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
@@ -77,6 +79,7 @@ mat-icon {
   gap: 1rem;
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
