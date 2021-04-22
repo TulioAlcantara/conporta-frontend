@@ -1,3 +1,5 @@
+import { AdminUnitMember } from './admin-unit';
+
 export class Ordinance {
   admin_unit_initials: string = '';
   author: number = 0;
@@ -52,6 +54,15 @@ export class Citation {
   to_ordinance: number = 0;
 }
 
+export class OrdinanceMember {
+  id: number = 0;
+  date: string = '';
+  reference_type: number = 0;
+  occupation_type: number = 0;
+  workload: number = 0;
+  member: AdminUnitMember = new AdminUnitMember();
+}
+
 export enum OrdinanceStatusEnum {
   'PROPOSTA' = 1,
   'VIGENTE' = 2,
@@ -66,4 +77,43 @@ export enum CitationTypeEnum {
   'MENÇÃO' = 2,
   'RETIFICAÇÃO' = 3,
   'REVOGAÇÃO' = 4,
+}
+
+export enum OrdinanceMemberReferenceType {
+  'AFASTAMENTO' = 1,
+  'APOSENTADORIA' = 2,
+  'CESSAO' = 3,
+  'CONTRATAÇÃO' = 4,
+  'DEMISSAO' = 5,
+  'DESIGNAÇÃO' = 6,
+  'DISPENSA' = 7,
+  'EXONERAÇÃO' = 8,
+  'NOMEAÇÃO' = 9,
+  'PENALIDADE' = 10,
+  'PENSAO' = 11,
+  'PRORROGAÇÃO' = 12,
+  'RECONDUÇÃO' = 13,
+  'REDISTRIBUIÇÃO' = 14,
+  'REMOÇÃO' = 15,
+  'RESCISAO' = 16,
+  'VACANCIA' = 17,
+}
+
+export enum OrdinanceMemberOccupationType {
+  'PRESIDENTE' = 1,
+  'VICE-PRESIDENTE' = 2,
+  'MEMBRO' = 3,
+  'TITULAR' = 4,
+  'MEMBRO SUPLENTE' = 5,
+  'COORDENADOR' = 6,
+  'VICE-COORDENADOR' = 7,
+  'REPRESETANTE' = 8,
+  'REITOR' = 9,
+  'VICE-REITOR' = 10,
+  'PRO-REITOR' = 11,
+  'PRO-REITOR-ADJUNTO' = 12,
+  'SECRETÁRIO' = 13,
+  'SECRETÁRIO-ADJUNTO' = 14,
+  'DIRETOR' = 15,
+  'VICE-DIRETOR' = 16,
 }

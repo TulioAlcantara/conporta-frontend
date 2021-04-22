@@ -6,6 +6,9 @@ import {
   Citation,
   CitationTypeEnum,
   Ordinance,
+  OrdinanceMember,
+  OrdinanceMemberOccupationType,
+  OrdinanceMemberReferenceType,
   PartialOrdinance,
 } from '../../../../shared/models/ordinance';
 import { OrdinancesService } from '../../ordinances.service';
@@ -16,9 +19,9 @@ import { OrdinancesService } from '../../ordinances.service';
   styleUrls: ['./ordinance-info.component.scss'],
 })
 export class OrdinanceInfoComponent implements OnInit {
+  //ORDINANCE
   selectedOrdinanceId: number = 0;
   isLoading: boolean = true;
-  citationList: Citation[] = [];
   selectedOrdinance: Ordinance = new Ordinance();
   ordinanceFormGroup = this.formBuilder.group({
     id: ['', Validators.required],
@@ -36,13 +39,31 @@ export class OrdinanceInfoComponent implements OnInit {
     theme: ['', Validators.required],
     sequential_id: [''],
   });
+
+  //ORDINANCE MEMBERS
+  ordinanceMemberList: OrdinanceMember[] = [];
+  ordinanceReferenceType = null;
+  ordinanceOccupationType = null;
+  ordinanceMemberReferenceType = OrdinanceMemberReferenceType;
+  ordinanceMemberOccupationType = OrdinanceMemberOccupationType;
+  ordinanceMembersTableDisplayedColumns = [
+    'date',
+    'reference_type',
+    'occupation_type',
+    'workload',
+    'member',
+    'admin_unit',
+  ];
+
+  //CITATIONS
+  citationList: Citation[] = [];
+  citationTypeEnum = CitationTypeEnum;
   citationsTableDisplayedColumns = [
     'from_ordinance',
     'to_ordinance',
     'type',
     'description',
   ];
-  citationTypeEnum = CitationTypeEnum;
 
   get isNewOrdinance() {
     return !!!this.selectedOrdinance.id;
@@ -60,6 +81,7 @@ export class OrdinanceInfoComponent implements OnInit {
       this.selectedOrdinanceId = +params['id'];
       this.loadOrdinanceInfo();
       this.loadCitations();
+      this.loadOrdinanceMembers();
     });
   }
 
@@ -102,6 +124,15 @@ export class OrdinanceInfoComponent implements OnInit {
       .subscribe((citations) => {
         this.citationList = citations;
         console.log(citations);
+      });
+  }
+
+  loadOrdinanceMembers(): void {
+    this.ordinancesService
+      .loadOrdinanceMembers(this.selectedOrdinanceId)
+      .subscribe((members) => {
+        this.ordinanceMemberList = members;
+        console.log(members);
       });
   }
 }

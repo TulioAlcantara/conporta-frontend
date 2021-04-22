@@ -6,6 +6,7 @@ import { apiPaths } from '../../shared/api-paths';
 import {
   Citation,
   Ordinance,
+  OrdinanceMember,
   PartialOrdinance,
 } from '../../shared/models/ordinance';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
@@ -48,6 +49,12 @@ export class OrdinancesService {
   loadOrdinanceCitations(ordinanceId: number): Observable<Citation[]> {
     return this.http.get<Citation[]>(
       `${environment.apiBaseUrl}/ordinance/${ordinanceId}/citations/`
+    );
+  }
+
+  loadOrdinanceMembers(ordinanceId: number): Observable<OrdinanceMember[]> {
+    return this.http.get<OrdinanceMember[]>(
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/members/`
     );
   }
 }

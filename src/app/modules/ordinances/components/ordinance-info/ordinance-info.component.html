@@ -86,17 +86,76 @@
             </mat-form-field>
         </div>
     </form>
+
     <mat-divider></mat-divider>
-    <div>
-        <h1>Referências</h1>
+
+    <div class="mt-1">
+        <div class="two-cols">
+            <h1>Referências</h1>
+            <div class="mb-1">
+                <div class="two-cols">
+                    <span></span>
+                    <button mat-button mat-raised-button color="accent" type="button">
+                        <mat-icon>add</mat-icon>NOVA REFERÊNCIA
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table mat-table [dataSource]="ordinanceMemberList" class="mat-elevation-z8 w-100">
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Data de ciência</th>
+                <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd/MM/yyyy'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reference_type">
+                <th mat-header-cell *matHeaderCellDef>Tipo de referência</th>
+                <td mat-cell *matCellDef="let element">{{ ordinanceMemberReferenceType[element.reference_type] }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="occupation_type">
+                <th mat-header-cell *matHeaderCellDef>Tipo de ocupação</th>
+                <td mat-cell *matCellDef="let element">{{ ordinanceMemberOccupationType[element.occupation_type] }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="workload">
+                <th mat-header-cell *matHeaderCellDef>Carga horaria</th>
+                <td mat-cell *matCellDef="let element">{{ element.workload }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="member">
+                <th mat-header-cell *matHeaderCellDef>Membro</th>
+                <td mat-cell *matCellDef="let element">{{element.member.profile.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="admin_unit">
+                <th mat-header-cell *matHeaderCellDef>Unidade Administrativa</th>
+                <td mat-cell *matCellDef="let element">{{element.member.admin_unit.name}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="ordinanceMembersTableDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: ordinanceMembersTableDisplayedColumns"></tr>
+        </table>
     </div>
+
     <mat-divider></mat-divider>
-    <div>
-        <h1>Citações</h1>
+
+    <div class="mt-1">
+        <div class="two-cols">
+            <h1>Citações</h1>
+            <div class="mb-1">
+                <div class="two-cols">
+                    <span></span>
+                    <button mat-button mat-raised-button color="accent" type="button">
+                        <mat-icon>add</mat-icon>NOVA CITAÇÃO
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <table mat-table [dataSource]="citationList" class="mat-elevation-z8 w-100">
             <ng-container matColumnDef="from_ordinance">
-                <th mat-header-cell *matHeaderCellDef>De</th>
+                <th mat-header-cell *matHeaderCellDef>De (Portaria)</th>
                 <td mat-cell *matCellDef="let element">
                     <a [routerLink]="['../', element.from_ordinance]">
                         {{ element.from_ordinance }}
@@ -105,7 +164,7 @@
             </ng-container>
 
             <ng-container matColumnDef="to_ordinance">
-                <th mat-header-cell *matHeaderCellDef>Para</th>
+                <th mat-header-cell *matHeaderCellDef>Para (Portaria)</th>
                 <td mat-cell *matCellDef="let element">
                     <a [routerLink]="['../', element.to_ordinance]">
                         {{ element.to_ordinance }}

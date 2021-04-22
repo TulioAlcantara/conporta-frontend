@@ -31,7 +31,7 @@ export class AdminUnitMember {
   end_date: string = '';
   type: number = 0;
   description: string = '';
-  admin_unit: number = 0;
+  admin_unit: AdminUnit = new AdminUnit();
   profile: Profile = new Profile();
 }
 
