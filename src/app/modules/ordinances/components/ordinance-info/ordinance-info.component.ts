@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Citation,
   CitationTypeEnum,
+  Directive,
+  DirectiveTypeEnum,
   Ordinance,
   OrdinanceMember,
   OrdinanceMemberOccupationType,
@@ -54,6 +56,13 @@ export class OrdinanceInfoComponent implements OnInit {
     'member',
     'admin_unit',
   ];
+  ordinanceMemberFormBuilder = this.formBuilder.group({
+    id: ['', Validators.required],
+    reference_type: ['', Validators.required],
+    occupation_type: ['', Validators.required],
+    workload: ['', Validators.required],
+    member: ['', Validators.required],
+  });
 
   //CITATIONS
   citationList: Citation[] = [];
@@ -64,6 +73,15 @@ export class OrdinanceInfoComponent implements OnInit {
     'type',
     'description',
   ];
+  citationFormBuilder = this.formBuilder.group({
+    id: ['', Validators.required],
+    type: ['', Validators.required],
+  });
+
+  //DIRECTIVES
+  directiveList: Directive[] = [];
+  directiveTypeEnum = DirectiveTypeEnum;
+  directivesTableDisplayedColumns = ['type', 'directive_url', 'description'];
 
   get isNewOrdinance() {
     return !!!this.selectedOrdinance.id;
@@ -82,6 +100,7 @@ export class OrdinanceInfoComponent implements OnInit {
       this.loadOrdinanceInfo();
       this.loadCitations();
       this.loadOrdinanceMembers();
+      this.loadDirectiveList();
     });
   }
 
@@ -123,7 +142,6 @@ export class OrdinanceInfoComponent implements OnInit {
       .loadOrdinanceCitations(this.selectedOrdinanceId)
       .subscribe((citations) => {
         this.citationList = citations;
-        console.log(citations);
       });
   }
 
@@ -132,7 +150,15 @@ export class OrdinanceInfoComponent implements OnInit {
       .loadOrdinanceMembers(this.selectedOrdinanceId)
       .subscribe((members) => {
         this.ordinanceMemberList = members;
-        console.log(members);
+      });
+  }
+
+  loadDirectiveList(): void {
+    this.ordinancesService
+      .loadOrdinanceDirectives(this.selectedOrdinanceId)
+      .subscribe((directives) => {
+        this.directiveList = directives;
+        console.log(directives);
       });
   }
 }

@@ -63,6 +63,14 @@ export class OrdinanceMember {
   member: AdminUnitMember = new AdminUnitMember();
 }
 
+export class Directive {
+  id: number = 0;
+  type: number = 0;
+  directive_url: string = '';
+  description: string = '';
+  ordinance: number = 0;
+}
+
 export enum OrdinanceStatusEnum {
   'PROPOSTA' = 1,
   'VIGENTE' = 2,
@@ -116,4 +124,9 @@ export enum OrdinanceMemberOccupationType {
   'SECRETÁRIO-ADJUNTO' = 14,
   'DIRETOR' = 15,
   'VICE-DIRETOR' = 16,
+}
+
+export enum DirectiveTypeEnum {
+  'ORIENTAÇÃO' = 1,
+  'REGRA',
 }

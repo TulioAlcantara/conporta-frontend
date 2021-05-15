@@ -12,7 +12,7 @@ import { PaginatedResponse } from '../../shared/models/paginated_response';
 import { Profile } from '../../shared/models/profile';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class AdminUnitsService {
   constructor(private http: HttpClient) {}

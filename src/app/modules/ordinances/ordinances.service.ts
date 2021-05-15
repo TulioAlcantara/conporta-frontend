@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { apiPaths } from '../../shared/api-paths';
 import {
   Citation,
+  Directive,
   Ordinance,
   OrdinanceMember,
   PartialOrdinance,
@@ -12,7 +13,7 @@ import {
 import { PaginatedResponse } from '../../shared/models/paginated_response';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class OrdinancesService {
   constructor(private http: HttpClient) {}
@@ -55,6 +56,12 @@ export class OrdinancesService {
   loadOrdinanceMembers(ordinanceId: number): Observable<OrdinanceMember[]> {
     return this.http.get<OrdinanceMember[]>(
       `${environment.apiBaseUrl}/ordinance/${ordinanceId}/members/`
+    );
+  }
+
+  loadOrdinanceDirectives(ordinanceId: number): Observable<Directive[]> {
+    return this.http.get<Directive[]>(
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/directives/`
     );
   }
 }

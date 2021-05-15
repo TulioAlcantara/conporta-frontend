@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
+import { AuthService } from '../../../../auth/auth.service';
 import {
   AdminUnit,
   AdminUnitMember,
@@ -61,11 +62,13 @@ export class AdminUnitInfoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adminUnitsService: AdminUnitsService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    console.log(this.authService.userProfile);
     this.subscribeProfileAutoComplete();
     this.route.params.subscribe((params) => {
       this.adminUnitId = +params['id'];
@@ -154,6 +157,8 @@ export class AdminUnitInfoComponent implements OnInit {
       this.newAdminUnitMemberFormGroup.value
     );
     newMember.admin_unit = this.adminUnitId;
+    newMember.profile = 0;
+    newMember.is_boss = false;
     this.adminUnitsService.saveNewMember(newMember).subscribe(() => {
       this.snackBar.open('Novo membro adicionado com sucesso!', 'FECHAR', {
         duration: 5000,
