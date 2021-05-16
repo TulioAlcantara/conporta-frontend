@@ -87,7 +87,7 @@ export enum CitationTypeEnum {
   'REVOGAÇÃO' = 4,
 }
 
-export enum OrdinanceMemberReferenceType {
+export enum OrdinanceMemberReferenceTypeEnum {
   'AFASTAMENTO' = 1,
   'APOSENTADORIA' = 2,
   'CESSAO' = 3,
@@ -107,7 +107,7 @@ export enum OrdinanceMemberReferenceType {
   'VACANCIA' = 17,
 }
 
-export enum OrdinanceMemberOccupationType {
+export enum OrdinanceMemberOccupationTypeEnum {
   'PRESIDENTE' = 1,
   'VICE-PRESIDENTE' = 2,
   'MEMBRO' = 3,

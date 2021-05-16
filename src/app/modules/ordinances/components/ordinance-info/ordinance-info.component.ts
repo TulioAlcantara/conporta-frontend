@@ -3,16 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import {
-  Citation,
-  CitationTypeEnum,
-  Directive,
-  DirectiveTypeEnum,
   Ordinance,
-  OrdinanceMember,
-  OrdinanceMemberOccupationType,
-  OrdinanceMemberReferenceType,
+  OrdinanceStatusEnum,
   PartialOrdinance,
 } from '../../../../shared/models/ordinance';
+import Utils from '../../../../shared/utils';
 import { OrdinancesService } from '../../ordinances.service';
 
 @Component({
@@ -21,10 +16,10 @@ import { OrdinancesService } from '../../ordinances.service';
   styleUrls: ['./ordinance-info.component.scss'],
 })
 export class OrdinanceInfoComponent implements OnInit {
-  //ORDINANCE
   selectedOrdinanceId: number = 0;
   isLoading: boolean = true;
   selectedOrdinance: Ordinance = new Ordinance();
+  ordinanceStatusEnum = Utils.enumEntriesToSelect(OrdinanceStatusEnum);
   ordinanceFormGroup = this.formBuilder.group({
     id: ['', Validators.required],
     admin_unit_initials: ['', Validators.required],
@@ -42,47 +37,6 @@ export class OrdinanceInfoComponent implements OnInit {
     sequential_id: [''],
   });
 
-  //ORDINANCE MEMBERS
-  ordinanceMemberList: OrdinanceMember[] = [];
-  ordinanceReferenceType = null;
-  ordinanceOccupationType = null;
-  ordinanceMemberReferenceType = OrdinanceMemberReferenceType;
-  ordinanceMemberOccupationType = OrdinanceMemberOccupationType;
-  ordinanceMembersTableDisplayedColumns = [
-    'date',
-    'reference_type',
-    'occupation_type',
-    'workload',
-    'member',
-    'admin_unit',
-  ];
-  ordinanceMemberFormBuilder = this.formBuilder.group({
-    id: ['', Validators.required],
-    reference_type: ['', Validators.required],
-    occupation_type: ['', Validators.required],
-    workload: ['', Validators.required],
-    member: ['', Validators.required],
-  });
-
-  //CITATIONS
-  citationList: Citation[] = [];
-  citationTypeEnum = CitationTypeEnum;
-  citationsTableDisplayedColumns = [
-    'from_ordinance',
-    'to_ordinance',
-    'type',
-    'description',
-  ];
-  citationFormBuilder = this.formBuilder.group({
-    id: ['', Validators.required],
-    type: ['', Validators.required],
-  });
-
-  //DIRECTIVES
-  directiveList: Directive[] = [];
-  directiveTypeEnum = DirectiveTypeEnum;
-  directivesTableDisplayedColumns = ['type', 'directive_url', 'description'];
-
   get isNewOrdinance() {
     return !!!this.selectedOrdinance.id;
   }
@@ -98,9 +52,6 @@ export class OrdinanceInfoComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.selectedOrdinanceId = +params['id'];
       this.loadOrdinanceInfo();
-      this.loadCitations();
-      this.loadOrdinanceMembers();
-      this.loadDirectiveList();
     });
   }
 
@@ -134,31 +85,6 @@ export class OrdinanceInfoComponent implements OnInit {
         this.selectedOrdinanceId = updatedOrdinance.id;
         this.isLoading = false;
         return;
-      });
-  }
-
-  loadCitations(): void {
-    this.ordinancesService
-      .loadOrdinanceCitations(this.selectedOrdinanceId)
-      .subscribe((citations) => {
-        this.citationList = citations;
-      });
-  }
-
-  loadOrdinanceMembers(): void {
-    this.ordinancesService
-      .loadOrdinanceMembers(this.selectedOrdinanceId)
-      .subscribe((members) => {
-        this.ordinanceMemberList = members;
-      });
-  }
-
-  loadDirectiveList(): void {
-    this.ordinancesService
-      .loadOrdinanceDirectives(this.selectedOrdinanceId)
-      .subscribe((directives) => {
-        this.directiveList = directives;
-        console.log(directives);
       });
   }
 }

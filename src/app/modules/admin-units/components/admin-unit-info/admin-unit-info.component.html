@@ -28,7 +28,6 @@
                 <mat-label>Tipo</mat-label>
                 <mat-select formControlName="type">
                     <mat-option *ngFor="let entry of adminUnitTypeEnum" [value]="entry[1]">
-                        <!-- {{adminUnitTypeEnum[type]}} -->
                         {{entry[0]}}
                     </mat-option>
                 </mat-select>
@@ -45,7 +44,7 @@
         <div class="two-cols">
             <span>
                 <h1 *ngIf="!isAddingMember">Membros</h1>
-                <h1 *ngIf="isAddingMember">Nova membro</h1>
+                <h1 *ngIf="isAddingMember">Novo membro</h1>
             </span>
             <div class="mb-1">
                 <div class="two-cols">
@@ -106,7 +105,6 @@
             </div>
 
             <mat-checkbox id="is_boss" formControlName="is_boss">É chefe?</mat-checkbox>
-
         </form>
 
         <table mat-table [dataSource]="adminUnitMembers" *ngIf="!isLoading && !isAddingMember"
