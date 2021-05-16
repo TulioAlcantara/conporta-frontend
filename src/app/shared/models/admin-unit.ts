@@ -5,7 +5,7 @@ export class AdminUnit {
   name: string = '';
   initials: string = '';
   type: number = 0;
-  year: number = 0;
+  expedition_year: number = 0;
   last_expedition_number: number = 0;
   last_ordinance: number = 0;
   ordinances: [] = [];
@@ -17,7 +17,7 @@ export class PartialAdminUnit {
   name: string = '';
   initials: string = '';
   type: number = 0;
-  year: number = 0;
+  expedition_year: number = 0;
 
   public constructor(init?: Partial<PartialAdminUnit>) {
     Object.assign(this, init);

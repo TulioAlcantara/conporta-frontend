@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
-import { AdminUnit } from '../../../../shared/models/admin-unit';
+import {
+  AdminUnit,
+  AdminUnitTypeEnum,
+} from '../../../../shared/models/admin-unit';
+import Utils from '../../../../shared/utils';
 import { AdminUnitsService } from '../../admin-units.service';
 
 @Component({
@@ -13,9 +17,16 @@ export class AdminUnitsListComponent implements OnInit {
   searchFilterFormControl = new FormControl();
   adminUnitsList: AdminUnit[] = [];
   tableIsLoading: boolean = true;
-  displayedColumns: string[] = ['id', 'name', 'initials', 'year'];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'initials',
+    'expedition_year',
+    'type',
+  ];
   isLoading: boolean = false;
   searchFilter: string = '';
+  adminUnitTypeEnum = AdminUnitTypeEnum;
 
   constructor(private adminUnitsService: AdminUnitsService) {}
 

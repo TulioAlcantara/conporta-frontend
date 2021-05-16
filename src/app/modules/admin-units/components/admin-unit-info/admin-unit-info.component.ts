@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { debounceTime } from "rxjs/operators";
 import Utils from "src/app/shared/utils";
+import { AuthService } from "../../../../auth/auth.service";
 import {
   AdminUnit,
   AdminUnitMember,
@@ -44,7 +45,7 @@ export class AdminUnitInfoComponent implements OnInit {
     name: ["", Validators.required],
     initials: ["", Validators.required],
     type: ["", Validators.required],
-    year: ["", Validators.required],
+    expedition_year: ["", Validators.required],
   });
   newAdminUnitMemberFormGroup = this.formBuilder.group({
     profile: ["", Validators.required],
