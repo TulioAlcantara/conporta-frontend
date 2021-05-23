@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { apiPaths } from '../../shared/api-paths';
+import { AdminUnitMember } from '../../shared/models/admin-unit';
 import {
   Citation,
   Directive,
   Ordinance,
   OrdinanceMember,
   PartialOrdinance,
+  PartialOrdinanceMember,
 } from '../../shared/models/ordinance';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
 
@@ -53,9 +55,38 @@ export class OrdinancesService {
     );
   }
 
+  saveOrdinanceCitation(citation: Citation){
+    return this.http.post<Citation>(`${environment.apiBaseUrl}/citation/`, citation)
+  }
+
+  loadNonCitedOrdinances(
+    ordinanceId: number,
+    search?: string
+  ): Observable<Ordinance[]> {
+    return this.http.get<Ordinance[]>(
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_ordinances/`
+    );
+  }
+
   loadOrdinanceMembers(ordinanceId: number): Observable<OrdinanceMember[]> {
     return this.http.get<OrdinanceMember[]>(
       `${environment.apiBaseUrl}/ordinance/${ordinanceId}/members/`
+    );
+  }
+
+  saveOrdinanceMember(newOrdinanceMember: PartialOrdinanceMember) {
+    return this.http.post<PartialOrdinanceMember>(
+      `${environment.apiBaseUrl}/ordinancemember/`,
+      newOrdinanceMember
+    );
+  }
+
+  loadNonCitedAdminUnitMembers(
+    ordinanceId: number,
+    search?: string
+  ): Observable<AdminUnitMember[]> {
+    return this.http.get<AdminUnitMember[]>(
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_members/?search=${search}`
     );
   }
 

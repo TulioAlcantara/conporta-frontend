@@ -146,7 +146,7 @@ export class AdminUnitInfoComponent implements OnInit {
     this.adminUnitsService
       .loadProfilesThatArentMembers(this.adminUnitId)
       .subscribe((profiles) => {
-        if (!profiles) {
+        if (profiles.length === 0) {
           this.snackBar.open('Nenhum perfil encontrado!', 'FECHAR', {
             duration: 5000,
           });

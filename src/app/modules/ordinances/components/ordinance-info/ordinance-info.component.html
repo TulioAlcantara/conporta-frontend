@@ -89,15 +89,15 @@
         </div>
     </form>
 
-    <div *ngIf="this.selectedOrdinanceId != 0" class="mt-1">
+    <div *ngIf="this.selectedOrdinanceId != 0" class="mt-2">
         <app-ordinance-members [ordinanceId]="selectedOrdinanceId"></app-ordinance-members>
     </div>
 
-    <div class="mt-1">
+    <div class="mt-2">
         <app-citations [ordinanceId]="selectedOrdinanceId"></app-citations>
     </div>
 
-    <div class="mt-1">
+    <div class="mt-2 mb-1">
         <app-directives [ordinanceId]="selectedOrdinanceId"></app-directives>
     </div>
 </div>

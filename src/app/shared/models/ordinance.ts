@@ -52,6 +52,10 @@ export class Citation {
   type: string = '';
   from_ordinance: number = 0;
   to_ordinance: number = 0;
+
+  public constructor(init?: Partial<Citation>) {
+    Object.assign(this, init);
+  }
 }
 
 export class OrdinanceMember {
@@ -61,6 +65,20 @@ export class OrdinanceMember {
   occupation_type: number = 0;
   workload: number = 0;
   member: AdminUnitMember = new AdminUnitMember();
+  ordinance: number = 0;
+}
+
+export class PartialOrdinanceMember {
+  id: number = 0;
+  reference_type: number = 0;
+  occupation_type: number = 0;
+  workload: number = 0;
+  member: number = 0;
+  ordinance: number = 0;
+
+  public constructor(init?: Partial<PartialOrdinanceMember>) {
+    Object.assign(this, init);
+  }
 }
 
 export class Directive {
