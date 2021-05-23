@@ -55,16 +55,22 @@ export class OrdinancesService {
     );
   }
 
-  saveOrdinanceCitation(citation: Citation){
-    return this.http.post<Citation>(`${environment.apiBaseUrl}/citation/`, citation)
+  saveOrdinanceCitation(citation: Citation) {
+    return this.http.post<Citation>(
+      `${environment.apiBaseUrl}/ordinancecitation/`,
+      citation
+    );
   }
 
   loadNonCitedOrdinances(
     ordinanceId: number,
     search?: string
   ): Observable<Ordinance[]> {
+    let params = new HttpParams();
+    if (search) params = params.append('search', search);
     return this.http.get<Ordinance[]>(
-      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_ordinances/`
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_ordinances/`,
+      { params: params }
     );
   }
 
@@ -85,8 +91,11 @@ export class OrdinancesService {
     ordinanceId: number,
     search?: string
   ): Observable<AdminUnitMember[]> {
+    let params = new HttpParams();
+    if (search) params = params.append('search', search);
     return this.http.get<AdminUnitMember[]>(
-      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_members/?search=${search}`
+      `${environment.apiBaseUrl}/ordinance/${ordinanceId}/non_cited_members/`,
+      { params: params }
     );
   }
 

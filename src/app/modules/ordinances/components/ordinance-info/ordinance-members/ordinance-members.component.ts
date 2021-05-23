@@ -79,7 +79,7 @@ export class OrdinanceMembersComponent implements OnInit {
   addOrdinanceMember(): void {
     this.isAddingOrdinanceMember = true;
     this.ordinancesService
-      .loadNonCitedAdminUnitMembers(this.ordinanceId, '')
+      .loadNonCitedAdminUnitMembers(this.ordinanceId)
       .subscribe((adminUnitMembers) => {
         if (adminUnitMembers.length === 0) {
           this.snackBar.open(

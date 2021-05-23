@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { debounceTime } from 'rxjs/operators';
 import {
   Citation,
   CitationTypeEnum,
@@ -41,6 +42,7 @@ export class CitationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCitations();
+    this.subscribeOrdinanceAutoComplete();
   }
 
   loadCitations(): void {
@@ -48,6 +50,18 @@ export class CitationsComponent implements OnInit {
       .loadOrdinanceCitations(this.ordinanceId)
       .subscribe((citations) => {
         this.citationList = citations;
+      });
+  }
+
+  subscribeOrdinanceAutoComplete() {
+    this.citationFormGroup.controls.to_ordinance.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((autoCompleteInput) => {
+        this.ordinancesService
+          .loadNonCitedOrdinances(this.ordinanceId, autoCompleteInput)
+          .subscribe((ordinances) => {
+            this.nonCitedOrdinances = ordinances;
+          });
       });
   }
 
@@ -71,8 +85,11 @@ export class CitationsComponent implements OnInit {
   }
 
   saveNewCitation(): void {
-    console.log('SALVANDO');
     let newCitation = new Citation(this.citationFormGroup.value);
+    newCitation.from_ordinance = this.ordinanceId;
+    newCitation.to_ordinance = this.citationFormGroup.controls[
+      'to_ordinance'
+    ].value.id;
     this.ordinancesService.saveOrdinanceCitation(newCitation).subscribe(() => {
       this.snackBar.open('Nova citação adicionada com sucesso!', 'FECHAR', {
         duration: 5000,
@@ -84,5 +101,9 @@ export class CitationsComponent implements OnInit {
   cancelNewCitation(): void {
     this.citationFormGroup.reset();
     this.isAddingCitation = false;
+  }
+
+  showOrdinanceId(ordinance: Ordinance): string {
+    return ordinance ? `Portaria ${ordinance.id}` : '';
   }
 }

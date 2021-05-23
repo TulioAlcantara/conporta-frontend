@@ -6,7 +6,11 @@
                 <h1 *ngIf="this.selectedOrdinanceId == 0">Nova Portaria</h1>
             </span>
             <div class="mb-1 two-cols">
-                <span></span>
+                <button mat-button mat-raised-button class="float-right" color="accent" type="button">
+                    <mat-icon><span class="material-icons-outlined">
+                            picture_as_pdf
+                        </span></mat-icon>GERAR PDF
+                </button>
                 <button mat-button mat-raised-button class="float-right" color="primary" type="submit">
                     <mat-icon>save</mat-icon>SALVAR
                 </button>

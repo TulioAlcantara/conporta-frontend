@@ -26,8 +26,13 @@
 <form *ngIf="isAddingCitation" [formGroup]="citationFormGroup">
     <div class="three-cols">
         <mat-form-field appearance="fill">
-            <mat-label>Para Portaria</mat-label>
-            <input matInput type="text" formControlName="to_ordinance">
+            <mat-label>Para</mat-label>
+            <input matInput type="text" formControlName="to_ordinance" [matAutocomplete]="autoOrdinance">
+            <mat-autocomplete #autoOrdinance="matAutocomplete" [displayWith]="showOrdinanceId" autoActiveFirstOption>
+                <mat-option *ngFor="let ordinance of nonCitedOrdinances" [value]="ordinance">
+                    Portaria {{ordinance.id}}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
