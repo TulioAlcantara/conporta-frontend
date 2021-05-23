@@ -82,13 +82,9 @@ export class OrdinanceMembersComponent implements OnInit {
       .loadNonCitedAdminUnitMembers(this.ordinanceId)
       .subscribe((adminUnitMembers) => {
         if (adminUnitMembers.length === 0) {
-          this.snackBar.open(
-            'Nenhum membro disponível encontrado!',
-            'FECHAR',
-            {
-              duration: 5000,
-            }
-          );
+          this.snackBar.open('Nenhum membro disponível encontrado!', 'FECHAR', {
+            duration: 5000,
+          });
           this.isAddingOrdinanceMember = false;
         }
       });
@@ -108,6 +104,7 @@ export class OrdinanceMembersComponent implements OnInit {
         duration: 5000,
       });
       this.isAddingOrdinanceMember = false;
+      this.loadOrdinanceMembers();
     });
   }
 

@@ -95,6 +95,7 @@ export class CitationsComponent implements OnInit {
         duration: 5000,
       });
       this.isAddingCitation = false;
+      this.loadCitations()
     });
   }
 

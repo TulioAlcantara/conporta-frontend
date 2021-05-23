@@ -87,6 +87,10 @@ export class Directive {
   directive_url: string = '';
   description: string = '';
   ordinance: number = 0;
+
+  public constructor(init?: Partial<Directive>) {
+    Object.assign(this, init);
+  }
 }
 
 export enum OrdinanceStatusEnum {

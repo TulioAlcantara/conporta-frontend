@@ -104,4 +104,11 @@ export class OrdinancesService {
       `${environment.apiBaseUrl}/ordinance/${ordinanceId}/directives/`
     );
   }
+
+  saveDirective(newDirective: Directive) {
+    return this.http.post<Directive>(
+      `${environment.apiBaseUrl}/directive/`,
+      newDirective
+    );
+  }
 }
