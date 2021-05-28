@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Profile } from '../shared/models/profile';
+import { AdminUnitMember } from '../shared/models/admin-unit';
+import { PartialProfile } from '../shared/models/profile';
 import { UserLogin } from '../shared/models/user-login';
 
 @Injectable({
@@ -12,14 +13,16 @@ import { UserLogin } from '../shared/models/user-login';
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  public userProfile: Profile = new Profile();
+  userProfile: PartialProfile = new PartialProfile();
+  userMemberships: AdminUnitMember[] = [];
+
 
   constructor(private Router: Router, private http: HttpClient) {}
 
   loginUser(user: UserLogin): Observable<any> {
     return this.http.post<any>(`${environment.apiBaseUrl}/login/`, user).pipe(
       tap((token) => this.storeToken(token.token)),
-      switchMap(() => this.loadUserProfile())
+      switchMap(() => this.loadUserProfile()),
     );
   }
 
@@ -45,9 +48,15 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  loadUserProfile(): Observable<Profile> {
-    return this.http.get<Profile>(
+  loadUserProfile(): Observable<PartialProfile> {
+    return this.http.get<PartialProfile>(
       `${environment.apiBaseUrl}/profile/current_user_profile/`
+    );
+  }
+
+  loadUserMemberships(): Observable<AdminUnitMember>{
+    return this.http.get<AdminUnitMember>(
+      `${environment.apiBaseUrl}/adminunitmember/current_user_admin_unit_memberships/`
     );
   }
 }

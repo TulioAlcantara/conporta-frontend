@@ -45,8 +45,11 @@ export class OrdinancesService {
     );
   }
 
-  createOrdinance() {
-    throwError;
+  createOrdinance(ordinance: PartialOrdinance): Observable<PartialOrdinance> {
+    return this.http.post<PartialOrdinance>(
+      `${environment.apiBaseUrl}/ordinance/`,
+      ordinance
+    );
   }
 
   loadOrdinanceCitations(ordinanceId: number): Observable<Citation[]> {

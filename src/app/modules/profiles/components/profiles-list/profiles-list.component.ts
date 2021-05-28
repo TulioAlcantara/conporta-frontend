@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
-import { Profile } from '../../../../shared/models/profile';
+import { PartialProfile } from '../../../../shared/models/profile';
 import { ProfilesService } from '../../profiles.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class ProfilesListComponent implements OnInit {
   searchFilterFormControl = new FormControl();
   searchFilter: string = '';
   isLoading: boolean = true;
-  ordinancesList: Profile[] = [];
+  ordinancesList: PartialProfile[] = [];
   displayedColumns: string[] = ['id', 'name', 'email', 'is_active'];
 
   constructor(public profileService: ProfilesService) {}

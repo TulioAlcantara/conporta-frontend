@@ -13,7 +13,7 @@ import {
   PartialAdminUnit,
   PartialAdminUnitMember,
 } from '../../../../shared/models/admin-unit';
-import { Profile } from '../../../../shared/models/profile';
+import { PartialProfile } from '../../../../shared/models/profile';
 import { AdminUnitsService } from '../../admin-units.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class AdminUnitInfoComponent implements OnInit {
   adminUnitTypeEnum = Utils.enumEntriesToSelect(AdminUnitTypeEnum);
   selectedAdminUnit: AdminUnit = new AdminUnit();
   adminUnitMembers: AdminUnitMember[] = [];
-  nonMemberProfilesOptions: Profile[] = [];
+  nonMemberProfilesOptions: PartialProfile[] = [];
   displayedColumns: string[] = [
     'id',
     'profile_name',
@@ -84,7 +84,6 @@ export class AdminUnitInfoComponent implements OnInit {
     });
   }
 
-  //TODO: FAZER ESSE MÉTODO JA TRAZER OS MEMBROS EM UMA UNICA CHAMADA
   loadAdminUnit(): void {
     this.adminUnitsService
       .loadAdminUnit(this.adminUnitId)
@@ -171,7 +170,7 @@ export class AdminUnitInfoComponent implements OnInit {
         duration: 5000,
       });
       this.isAddingMember = false;
-      //TODO: Recarregar a lista de membros aqui!
+      this.loadAdminUnitMembers();
     });
   }
 
@@ -180,7 +179,7 @@ export class AdminUnitInfoComponent implements OnInit {
     this.isAddingMember = false;
   }
 
-  showProfileName(profile: Profile): string {
+  showProfileName(profile: PartialProfile): string {
     return profile ? profile.name : '';
   }
 

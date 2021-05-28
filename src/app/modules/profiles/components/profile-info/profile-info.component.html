@@ -1,0 +1,37 @@
+<div *ngIf="!isLoading">
+    <form [formGroup]="profileFormGroup" (ngSubmit)="saveProfile()" >
+        <div class="two-cols">
+            <span>
+                <h1 *ngIf="this.selectedProfileId != 0">Perfil {{selectedProfileId}}</h1>
+                <h1 *ngIf="this.selectedProfileId == 0">Novo Perfil</h1>
+            </span>
+            <div class="mb-1 two-cols">
+                <span></span>
+                <button mat-button mat-raised-button class="float-right" color="primary" type="submit" [disabled]="!profileFormGroup.valid">
+                    <mat-icon>save</mat-icon>SALVAR
+                </button>
+            </div>
+        </div>
+
+        <div class="two-cols">
+            <mat-form-field appearance="fill">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="text" formControlName="email">
+            </mat-form-field>
+
+        </div>
+
+        <div class="one-col">
+            <mat-checkbox id="is_active" formControlName="is_active">Ativo</mat-checkbox>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="isLoading" class="loading">
+    <mat-spinner></mat-spinner>
+</div>

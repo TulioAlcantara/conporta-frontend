@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PaginatedResponse } from '../../shared/models/paginated_response';
-import { Profile } from '../../shared/models/profile';
+import { PartialProfile, Profile } from '../../shared/models/profile';
 import { ProfilesModule } from './profiles.module';
 
 @Injectable({
@@ -14,12 +14,30 @@ export class ProfilesService {
 
   loadAllProfiles(
     searchFilter?: string
-  ): Observable<PaginatedResponse<Profile>> {
+  ): Observable<PaginatedResponse<PartialProfile>> {
     let params = new HttpParams();
     if (searchFilter) params = params.append('search', searchFilter);
-    return this.http.get<PaginatedResponse<Profile>>(
+    return this.http.get<PaginatedResponse<PartialProfile>>(
       `${environment.apiBaseUrl}/profile/`,
       { params: params }
+    );
+  }
+
+  loadProfile(profileId: number): Observable<Profile> {
+    return this.http.get<Profile>(
+      `${environment.apiBaseUrl}/profile/${profileId}/`
+    );
+  }
+
+  createProfile(profile: PartialProfile): Observable<PartialProfile> {
+    return this.http.post<PartialProfile>(
+      `${environment.apiBaseUrl}/profile/`, profile
+    );
+  }
+
+  updateProfile(profile: PartialProfile): Observable<PartialProfile> {
+    return this.http.patch<PartialProfile>(
+      `${environment.apiBaseUrl}/profile/${profile.id}/`, profile
     );
   }
 }

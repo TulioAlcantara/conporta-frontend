@@ -17,7 +17,7 @@ export class Ordinance {
   summary: string = '';
   theme: string = '';
   sequential_id: number = 0;
-  year: number = 0;
+  expedition_year: number = 0;
 
   public constructor(init?: Partial<Ordinance>) {
     Object.assign(this, init);
@@ -39,7 +39,7 @@ export class PartialOrdinance {
   summary: string = '';
   theme: string = '';
   sequential_id: number = 0;
-  year: number = 0;
+  expedition_year: number = 0;
 
   public constructor(init?: Partial<PartialOrdinance>) {
     Object.assign(this, init);

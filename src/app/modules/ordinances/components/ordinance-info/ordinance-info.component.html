@@ -11,7 +11,7 @@
                             picture_as_pdf
                         </span></mat-icon>GERAR PDF
                 </button>
-                <button mat-button mat-raised-button class="float-right" color="primary" type="submit">
+                <button mat-button mat-raised-button class="float-right" color="primary" type="submit" [disabled]="!ordinanceFormGroup.valid">
                     <mat-icon>save</mat-icon>SALVAR
                 </button>
             </div>
@@ -97,11 +97,11 @@
         <app-ordinance-members [ordinanceId]="selectedOrdinanceId"></app-ordinance-members>
     </div>
 
-    <div class="mt-2">
+    <div *ngIf="this.selectedOrdinanceId != 0" class="mt-2">
         <app-citations [ordinanceId]="selectedOrdinanceId"></app-citations>
     </div>
 
-    <div class="mt-2 mb-1">
+    <div *ngIf="this.selectedOrdinanceId != 0" class="mt-2 mb-1">
         <app-directives [ordinanceId]="selectedOrdinanceId"></app-directives>
     </div>
 </div>

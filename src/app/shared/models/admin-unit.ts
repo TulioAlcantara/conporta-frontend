@@ -1,4 +1,4 @@
-import { Profile } from './profile';
+import { PartialProfile } from './profile';
 
 export class AdminUnit {
   id: number = 0;
@@ -32,7 +32,7 @@ export class AdminUnitMember {
   type: number = 0;
   description: string = '';
   admin_unit: AdminUnit = new AdminUnit();
-  profile: Profile = new Profile();
+  profile: PartialProfile = new PartialProfile();
 }
 
 export class PartialAdminUnitMember {
