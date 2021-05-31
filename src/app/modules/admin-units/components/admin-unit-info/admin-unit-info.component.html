@@ -70,7 +70,7 @@
 
         <!-- TODO: Adicionar validação de formulário vazio -->
         <form *ngIf="isAddingMember" [formGroup]="newAdminUnitMemberFormGroup">
-            <div class="three-cols">
+            <div class="four-cols">
                 <mat-form-field appearance="fill">
                     <mat-label>Pessoa</mat-label>
                     <input matInput type="text" formControlName="profile" [matAutocomplete]="autoProfiles">
@@ -83,13 +83,19 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
-                    <mat-label>Período ativo</mat-label>
-                    <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate formControlName="start_date" placeholder="Data inicial">
-                        <input matEndDate formControlName="end_date" placeholder="Data final">
-                    </mat-date-range-input>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-label>Inicio do período ativo</mat-label>
+                    <input matInput [matDatepicker]="startDatePicker" formControlName="start_date"
+                        placeholder="Data inicial">
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Fim do período ativo</mat-label>
+                    <input matInput [matDatepicker]="endDatePicker" formControlName="end_date"
+                        placeholder="Data final">
+                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endDatePicker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">

@@ -58,7 +58,7 @@
             </mat-form-field>
         </div>
 
-        <div class="three-cols">
+        <div class="four-cols">
             <mat-form-field appearance="fill">
                 <mat-label>Data publicação DOU</mat-label>
                 <input matInput [matDatepicker]="douDatePicker" formControlName="dou_publication_date"
@@ -75,6 +75,11 @@
             <mat-form-field appearance="fill">
                 <mat-label>Número sequencial</mat-label>
                 <input matInput type="text" formControlName="sequential_id">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Sigla da Unidade Admin.</mat-label>
+                <input matInput type="text" formControlName="admin_unit_initials">
             </mat-form-field>
         </div>
 

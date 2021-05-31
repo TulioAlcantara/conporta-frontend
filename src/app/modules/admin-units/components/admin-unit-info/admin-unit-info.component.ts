@@ -52,7 +52,7 @@ export class AdminUnitInfoComponent implements OnInit {
     profile: ['', Validators.required],
     is_boss: ['', Validators.required],
     start_date: ['', Validators.required],
-    end_date: ['', Validators.required],
+    end_date: [null],
     type: ['', Validators.required],
     description: ['', Validators.required],
   });
