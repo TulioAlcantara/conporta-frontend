@@ -1,4 +1,11 @@
-<app-header> </app-header>
-<div class="container">
-  <router-outlet></router-outlet>
+<div *ngIf="userMembershipsLoaded">
+  <app-header> </app-header>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+<div *ngIf="!userMembershipsLoaded" class="loading">
+  <mat-spinner></mat-spinner>
 </div>

@@ -3,7 +3,7 @@
     <div class="mb-1">
         <div class="two-cols">
             <span></span>
-            <button *ngIf="!isAddingCitation" mat-button mat-raised-button color="accent" type="button"
+            <button *ngIf="!isAddingCitation && isBoss" mat-button mat-raised-button color="accent" type="button"
                 (click)="addCitation()">
                 <mat-icon>add</mat-icon>NOVA CITAÇÃO
             </button>

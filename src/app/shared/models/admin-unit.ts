@@ -6,10 +6,11 @@ export class AdminUnit {
   initials: string = '';
   type: number = 0;
   expedition_year: number = 0;
-  last_expedition_number: number = 0;
-  last_ordinance: number = 0;
+  last_issued_number: number = 0;
+  last_proposed_number: number = 0;
   ordinances: [] = [];
   members: [] = [];
+  parent_admin_unit: PartialAdminUnit = new PartialAdminUnit();
 }
 
 export class PartialAdminUnit {
@@ -18,6 +19,7 @@ export class PartialAdminUnit {
   initials: string = '';
   type: number = 0;
   expedition_year: number = 0;
+  parent_admin_unit: number = 0;
 
   public constructor(init?: Partial<PartialAdminUnit>) {
     Object.assign(this, init);

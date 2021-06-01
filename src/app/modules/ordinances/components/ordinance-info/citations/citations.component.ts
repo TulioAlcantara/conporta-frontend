@@ -17,6 +17,7 @@ import { OrdinancesService } from '../../../ordinances.service';
 })
 export class CitationsComponent implements OnInit {
   @Input() ordinanceId: number = 0;
+  @Input() isBoss: boolean = false;
   citationList: Citation[] = [];
   nonCitedOrdinances: Ordinance[] = [];
   citationTypeEnum = CitationTypeEnum;

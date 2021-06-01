@@ -2,7 +2,7 @@
   <div class="two-cols">
     <h1>Portarias</h1>
     <div>
-      <button mat-button mat-raised-button color="accent" class="float-right" [routerLink]="['./', 0]">
+      <button *ngIf="isBoss" mat-button mat-raised-button color="accent" class="float-right" [routerLink]="['./', 0]">
         <mat-icon>add</mat-icon>NOVA PORTARIA
       </button>
     </div>

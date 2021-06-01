@@ -17,7 +17,7 @@ import { PartialProfile } from '../../shared/models/profile';
 export class AdminUnitsService {
   constructor(private http: HttpClient) {}
 
-  loadAllAdminUnits(
+  loadAllAdminUnitsPaginated(
     searchFilter?: string
   ): Observable<PaginatedResponse<AdminUnit>> {
     let params = new HttpParams();
@@ -26,6 +26,17 @@ export class AdminUnitsService {
       `${environment.apiBaseUrl}/adminunit/`,
       { params: params }
     );
+  }
+
+  loadParentAdminUnitOptions(
+    selectedAdminUnit: number,
+    searchFilter?: string
+  ): Observable<AdminUnit[]> {
+    let params = new HttpParams();
+    if (searchFilter) params = params.append('search', searchFilter);
+    return this.http.get<AdminUnit[]>(`${environment.apiBaseUrl}/adminunit/${selectedAdminUnit}/parent_admin_unit_options/`, {
+      params: params,
+    });
   }
 
   loadAdminUnit(adminUnitId: number): Observable<AdminUnit> {

@@ -3,7 +3,7 @@
     <div class="mb-1">
         <div class="two-cols">
             <span></span>
-            <button *ngIf="!isAddingDirective" mat-button mat-raised-button color="accent" type="button"
+            <button *ngIf="!isAddingDirective && isBoss" mat-button mat-raised-button color="accent" type="button"
                 (click)="addDirective()">
                 <mat-icon>add</mat-icon>NOVA DIRETRIZ
             </button>

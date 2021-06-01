@@ -30,6 +30,7 @@ export class AdminUnitInfoComponent implements OnInit {
   selectedAdminUnit: AdminUnit = new AdminUnit();
   adminUnitMembers: AdminUnitMember[] = [];
   nonMemberProfilesOptions: PartialProfile[] = [];
+  parentAdminUnitOptions: AdminUnit[] = [];
   displayedColumns: string[] = [
     'id',
     'profile_name',
@@ -47,6 +48,7 @@ export class AdminUnitInfoComponent implements OnInit {
     initials: ['', Validators.required],
     type: ['', Validators.required],
     expedition_year: ['', Validators.required],
+    parent_admin_unit: [''],
   });
   newAdminUnitMemberFormGroup = this.formBuilder.group({
     profile: ['', Validators.required],
@@ -72,6 +74,7 @@ export class AdminUnitInfoComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.authService.userProfile);
     this.subscribeProfileAutoComplete();
+    this.subscribeParentAdminUnitAutocomplete();
     this.route.params.subscribe((params) => {
       this.adminUnitId = +params['id'];
 
@@ -107,24 +110,31 @@ export class AdminUnitInfoComponent implements OnInit {
 
   saveAdminUnit(): void {
     this.isLoading = true;
+    let partialAdminUnit = new PartialAdminUnit(this.adminUnitFormGroup.value);
+    let parentAdminUnitSelected = this.adminUnitFormGroup.controls[
+      'parent_admin_unit'
+    ].value;
+
+    partialAdminUnit.parent_admin_unit = parentAdminUnitSelected
+      ? parentAdminUnitSelected.id
+      : null;
+      
     if (this.adminUnitId != 0) {
-      this.adminUnitsService
-        .updateAdminUnit(new PartialAdminUnit(this.adminUnitFormGroup.value))
-        .subscribe(() => {
-          this.snackBar.open(
-            'Unidade administrativa salva com sucesso!',
-            'FECHAR',
-            {
-              duration: 5000,
-            }
-          );
-          this.isLoading = false;
-        });
+      this.adminUnitsService.updateAdminUnit(partialAdminUnit).subscribe(() => {
+        this.snackBar.open(
+          'Unidade administrativa salva com sucesso!',
+          'FECHAR',
+          {
+            duration: 5000,
+          }
+        );
+        this.isLoading = false;
+      });
       return;
     }
 
     this.adminUnitsService
-      .createAdminUnit(new PartialAdminUnit(this.adminUnitFormGroup.value))
+      .createAdminUnit(partialAdminUnit)
       .subscribe((newAdminUnit) => {
         this.snackBar.open(
           'Unidade administrativa criada com sucesso!',
@@ -180,7 +190,11 @@ export class AdminUnitInfoComponent implements OnInit {
   }
 
   showProfileName(profile: PartialProfile): string {
-    return profile ? profile.name : '';
+    return profile ? `${profile.id} - ${profile.name}` : '';
+  }
+
+  showAdminUnitName(adminUnit: AdminUnit): string {
+    return adminUnit ? `${adminUnit.id} - ${adminUnit.name}` : '';
   }
 
   subscribeProfileAutoComplete() {
@@ -191,6 +205,18 @@ export class AdminUnitInfoComponent implements OnInit {
           .loadProfilesThatArentMembers(this.adminUnitId, autoCompleteInput)
           .subscribe((profiles) => {
             this.nonMemberProfilesOptions = profiles;
+          });
+      });
+  }
+
+  subscribeParentAdminUnitAutocomplete() {
+    this.adminUnitFormGroup.controls.parent_admin_unit.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((autoCompleteInput) => {
+        this.adminUnitsService
+          .loadParentAdminUnitOptions(this.adminUnitId, autoCompleteInput)
+          .subscribe((adminUnits) => {
+            this.parentAdminUnitOptions = adminUnits;
           });
       });
   }

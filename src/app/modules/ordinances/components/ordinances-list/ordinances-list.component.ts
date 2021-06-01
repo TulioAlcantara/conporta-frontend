@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
+import { AuthService } from '../../../../auth/auth.service';
 import { Ordinance } from '../../../../shared/models/ordinance';
 import { PaginatedResponse } from '../../../../shared/models/paginated_response';
 import { OrdinancesService } from '../../ordinances.service';
@@ -18,10 +19,15 @@ export class OrdinancesListComponent implements OnInit {
   isLoading: boolean = true;
   ordinancesList: Ordinance[] = [];
   displayedColumns: string[] = ['id', 'theme', 'expedition_date'];
+  isBoss: boolean = false;
 
-  constructor(private ordinancesService: OrdinancesService) {}
+  constructor(
+    private ordinancesService: OrdinancesService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.isBoss = this.authService.userCompleteProfile.is_boss;
     this.loadAllOrdinances();
     this.subscribeToSearchFilter();
   }

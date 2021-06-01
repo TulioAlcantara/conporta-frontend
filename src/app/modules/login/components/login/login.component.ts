@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(user).subscribe(
       (profile) => {
         this.router.navigate(['/portarias']);
-        this.authService.userProfile = profile;
       },
       (error) => {
         this.snackBar.open('Não foi possível conectar!', 'FECHAR', {

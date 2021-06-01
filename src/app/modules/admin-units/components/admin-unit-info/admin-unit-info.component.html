@@ -7,18 +7,32 @@
             </span>
             <div class="mb-1 two-cols">
                 <span></span>
-                <button mat-button mat-raised-button class="float-right" color="primary" type="submit">
+                <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
+                    [disabled]="!adminUnitFormGroup.valid">
                     <mat-icon>save</mat-icon>SALVAR
                 </button>
             </div>
         </div>
 
-        <div class="four-cols">
+        <div class="two-cols">
             <mat-form-field appearance="fill">
                 <mat-label>Nome</mat-label>
                 <input matInput type="text" formControlName="name">
             </mat-form-field>
 
+            <mat-form-field appearance="fill">
+                <mat-label>UA Superior</mat-label>
+                <input matInput type="text" formControlName="parent_admin_unit" [matAutocomplete]="autoParentAdminUnit">
+                <mat-autocomplete #autoParentAdminUnit="matAutocomplete" [displayWith]="showAdminUnitName"
+                    autoActiveFirstOption>
+                    <mat-option *ngFor="let adminUnit of parentAdminUnitOptions" [value]="adminUnit">
+                        {{adminUnit.id}} - {{adminUnit.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div class="three-cols">
             <mat-form-field appearance="fill">
                 <mat-label>Sigla</mat-label>
                 <input matInput type="text" formControlName="initials">
@@ -37,6 +51,11 @@
                 <mat-label>Ano de expedição</mat-label>
                 <input matInput type="text" formControlName="expedition_year">
             </mat-form-field>
+        </div>
+
+        <div class="two-cols mb-1" *ngIf="this.adminUnitId != 0">
+            <b>Numero de portarias propostas: <span>{{selectedAdminUnit.last_proposed_number || 0}}</span></b>
+            <b>Numero de portarias expedidas: <span>{{selectedAdminUnit.last_issued_number || 0}}</span></b>
         </div>
     </form>
     <mat-divider></mat-divider>
@@ -92,8 +111,7 @@
 
                 <mat-form-field appearance="fill">
                     <mat-label>Fim do período ativo</mat-label>
-                    <input matInput [matDatepicker]="endDatePicker" formControlName="end_date"
-                        placeholder="Data final">
+                    <input matInput [matDatepicker]="endDatePicker" formControlName="end_date" placeholder="Data final">
                     <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #endDatePicker></mat-datepicker>
                 </mat-form-field>

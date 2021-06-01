@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../../auth/auth.service';
 import {
   Ordinance,
   OrdinanceStatusEnum,
@@ -21,6 +22,7 @@ export class OrdinanceInfoComponent implements OnInit {
   isLoading: boolean = true;
   selectedOrdinance: Ordinance = new Ordinance();
   ordinanceStatusEnum = Utils.enumEntriesToSelect(OrdinanceStatusEnum);
+  isBoss = false;
   ordinanceFormGroup = this.formBuilder.group({
     id: [0, Validators.required],
     admin_unit_initials: [''],
@@ -46,10 +48,12 @@ export class OrdinanceInfoComponent implements OnInit {
     private route: ActivatedRoute,
     private ordinancesService: OrdinancesService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.isBoss = this.authService.userCompleteProfile.is_boss;
     this.route.params.subscribe((params) => {
       this.selectedOrdinanceId = +params['id'];
       if (this.selectedOrdinanceId != 0) {
@@ -73,13 +77,15 @@ export class OrdinanceInfoComponent implements OnInit {
   saveOrdinance(): void {
     this.isLoading = true;
     let partialOrdinance = new PartialOrdinance(this.ordinanceFormGroup.value);
-    
+
     if (this.isNewOrdinance) {
-      partialOrdinance.expedition_date = (new Date()).toISOString()
-      partialOrdinance.expedition_year = new Date().getFullYear()
+      partialOrdinance.expedition_date = new Date().toISOString();
+      partialOrdinance.expedition_year = new Date().getFullYear();
       //TODO: Validar casos de inserção do campo sequential_id, expedition_date (dependem de UA unidade externa)
-      partialOrdinance.admin_unit_initials = "INF";
-      partialOrdinance.identifier = this.buildOrdinanceIdentifier(partialOrdinance)
+      partialOrdinance.admin_unit_initials = this.authService.userCompleteProfile.boss_of_admin_unit.initials;
+      partialOrdinance.identifier = this.buildOrdinanceIdentifier(
+        partialOrdinance
+      );
 
       this.ordinancesService
         .createOrdinance(partialOrdinance)
@@ -91,7 +97,6 @@ export class OrdinanceInfoComponent implements OnInit {
           this.isLoading = false;
           return;
         });
-
     } else {
       this.ordinancesService
         .updateOrdinance(partialOrdinance)
@@ -107,6 +112,6 @@ export class OrdinanceInfoComponent implements OnInit {
   }
 
   buildOrdinanceIdentifier(ordinance: PartialOrdinance): string {
-    return `${ordinance.admin_unit_initials}${ordinance.expedition_year}${ordinance.sequential_id}`
+    return `${ordinance.admin_unit_initials}${ordinance.expedition_year}${ordinance.sequential_id}`;
   }
 }

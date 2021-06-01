@@ -6,7 +6,7 @@
     <div class="mb-1">
         <div class="two-cols">
             <span></span>
-            <button *ngIf="!isAddingOrdinanceMember" mat-button mat-raised-button color="accent" type="button"
+            <button *ngIf="!isAddingOrdinanceMember && isBoss" mat-button mat-raised-button color="accent" type="button"
                 (click)="addOrdinanceMember()">
                 <mat-icon>add</mat-icon>NOVA REFERÊNCIA
             </button>

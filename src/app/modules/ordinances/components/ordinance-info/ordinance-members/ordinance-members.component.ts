@@ -19,6 +19,7 @@ import { OrdinancesService } from '../../../ordinances.service';
 })
 export class OrdinanceMembersComponent implements OnInit {
   @Input() ordinanceId: number = 0;
+  @Input() isBoss: boolean = false;
   ordinanceMemberList: OrdinanceMember[] = [];
   nonCitedAdminUnitMembers: AdminUnitMember[] = [];
   ordinanceMemberReferenceTypeEnum = OrdinanceMemberReferenceTypeEnum;

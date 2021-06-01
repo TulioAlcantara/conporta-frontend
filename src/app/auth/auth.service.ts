@@ -5,24 +5,23 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AdminUnitMember } from '../shared/models/admin-unit';
-import { PartialProfile } from '../shared/models/profile';
+import { CompleteProfile, PartialProfile } from '../shared/models/profile';
 import { UserLogin } from '../shared/models/user-login';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  userProfile: PartialProfile = new PartialProfile();
-  userMemberships: AdminUnitMember[] = [];
-
+  loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  userCompleteProfile: CompleteProfile = new CompleteProfile();
 
   constructor(private Router: Router, private http: HttpClient) {}
 
   loginUser(user: UserLogin): Observable<any> {
     return this.http.post<any>(`${environment.apiBaseUrl}/login/`, user).pipe(
       tap((token) => this.storeToken(token.token)),
-      switchMap(() => this.loadUserProfile()),
+      switchMap(() => this.loadUserMemberships()),
+      tap((userMemberships) => this.buildCompleteUserProfile(userMemberships))
     );
   }
 
@@ -48,15 +47,13 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  loadUserProfile(): Observable<PartialProfile> {
-    return this.http.get<PartialProfile>(
-      `${environment.apiBaseUrl}/profile/current_user_profile/`
+  loadUserMemberships(): Observable<AdminUnitMember[]> {
+    return this.http.get<AdminUnitMember[]>(
+      `${environment.apiBaseUrl}/adminunitmember/current_user_admin_unit_memberships/`
     );
   }
 
-  loadUserMemberships(): Observable<AdminUnitMember>{
-    return this.http.get<AdminUnitMember>(
-      `${environment.apiBaseUrl}/adminunitmember/current_user_admin_unit_memberships/`
-    );
+  buildCompleteUserProfile(userMemberships: AdminUnitMember[]): void {
+    this.userCompleteProfile = new CompleteProfile(userMemberships);
   }
 }

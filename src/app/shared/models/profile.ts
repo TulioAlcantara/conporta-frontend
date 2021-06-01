@@ -1,4 +1,5 @@
-import { UserLogin } from "./user-login";
+import { AdminUnit, AdminUnitMember } from './admin-unit';
+import { UserLogin } from './user-login';
 
 export class PartialProfile {
   id: number = 0;
@@ -20,7 +21,30 @@ export class Profile {
 }
 
 export class User {
-  id: number = 0
-  login: string = ''
-  password: string = ''
+  id: number = 0;
+  login: string = '';
+  password: string = '';
+}
+
+export class CompleteProfile {
+  profile: PartialProfile = new PartialProfile();
+  is_boss = false;
+  boss_of_admin_unit: AdminUnit =  new AdminUnit();
+  member_of_admin_unit: AdminUnit[] = [];
+  memberships: AdminUnitMember[] = [];
+
+  constructor(memberships?: AdminUnitMember[]) {
+    if (memberships) {
+      memberships.forEach((membership) => {
+        this.memberships.push(membership);
+        this.profile = membership.profile;
+        if (membership.is_boss) {
+          this.is_boss = true;
+          this.boss_of_admin_unit = membership.admin_unit;
+        } else {
+          this.member_of_admin_unit.push(membership.admin_unit);
+        }
+      });
+    }
+  }
 }

@@ -15,6 +15,7 @@ import { OrdinancesService } from '../../../ordinances.service';
 })
 export class DirectivesComponent implements OnInit {
   @Input() ordinanceId: number = 0;
+  @Input() isBoss: boolean = false;
   isAddingDirective: boolean = false;
   directiveList: Directive[] = [];
   directiveTypeEnum = DirectiveTypeEnum;

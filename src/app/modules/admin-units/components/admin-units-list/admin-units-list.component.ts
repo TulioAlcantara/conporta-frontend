@@ -38,7 +38,7 @@ export class AdminUnitsListComponent implements OnInit {
   loadAllAdminUnits() {
     this.isLoading = true;
     this.adminUnitsService
-      .loadAllAdminUnits(this.searchFilter)
+      .loadAllAdminUnitsPaginated(this.searchFilter)
       .subscribe((paginatedResponse) => {
         this.adminUnitsList = paginatedResponse.results;
         this.isLoading = false;
