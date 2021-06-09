@@ -17,8 +17,12 @@ export class OrdinancesListComponent implements OnInit {
   searchFilterFormControl = new FormControl();
   searchFilter: string = '';
   isLoading: boolean = true;
-  ordinancesList: Ordinance[] = [];
+  isLoadingUserMentionedOrdinances: boolean = true;
+  ordinancesFromUserAdminUnitList: Ordinance[] = [];
+  userMentionedOrdinancesList: Ordinance[] = [];
   displayedColumns: string[] = ['id', 'theme', 'expedition_date'];
+  userAdminUnits: string[] = [];
+  userAdminUnitsString: string = '';
   isBoss: boolean = false;
 
   constructor(
@@ -28,17 +32,38 @@ export class OrdinancesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isBoss = this.authService.userCompleteProfile.is_boss;
-    this.loadAllOrdinances();
+    this.userAdminUnits = this.authService.userCompleteProfile.memberships.map(
+      (memberships) => memberships.admin_unit.name
+    );
+    this.userAdminUnitsString = this.userAdminUnits.join(', ');
+    this.loadOrdinancesFromUserAdminUnits();
     this.subscribeToSearchFilter();
+    this.loadOrdinanceWithMentionToUser();
   }
 
-  loadAllOrdinances() {
+  loadOrdinancesFromUserAdminUnits(): void {
     this.ordinancesService
-      .loadAllOrdinances(this.searchFilter)
+      .loadOrdinancesFromUserAdminUnits(this.searchFilter)
       .subscribe((paginatedResponse) => {
-        this.ordinancesList = paginatedResponse.results;
+        this.ordinancesFromUserAdminUnitList = paginatedResponse.results;
         this.isLoading = false;
       });
+  }
+
+  loadOrdinanceWithMentionToUser(): void {
+    let userMembershipsIdList =
+      this.authService.userCompleteProfile.memberships.map(
+        (membership) => membership.id
+      );
+
+    if (userMembershipsIdList.length > 0) {
+      this.ordinancesService
+        .loadOrdinanceWithMentionToUser(userMembershipsIdList)
+        .subscribe((results) => {
+          this.userMentionedOrdinancesList = results;
+          this.isLoadingUserMentionedOrdinances = false;
+        });
+    }
   }
 
   subscribeToSearchFilter() {
@@ -48,6 +73,6 @@ export class OrdinancesListComponent implements OnInit {
         debounceTime(500),
         tap((filterInput) => (this.searchFilter = filterInput))
       )
-      .subscribe(() => this.loadAllOrdinances());
+      .subscribe(() => this.loadOrdinancesFromUserAdminUnits());
   }
 }

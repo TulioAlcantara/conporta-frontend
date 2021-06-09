@@ -30,8 +30,10 @@ export class CompleteProfile {
   profile: PartialProfile = new PartialProfile();
   is_boss = false;
   boss_of_admin_unit: AdminUnit =  new AdminUnit();
+  boss_of_admin_unit_membership: AdminUnitMember = new AdminUnitMember();
   member_of_admin_unit: AdminUnit[] = [];
   memberships: AdminUnitMember[] = [];
+
 
   constructor(memberships?: AdminUnitMember[]) {
     if (memberships) {
@@ -41,6 +43,7 @@ export class CompleteProfile {
         if (membership.is_boss) {
           this.is_boss = true;
           this.boss_of_admin_unit = membership.admin_unit;
+          this.boss_of_admin_unit_membership = membership;
         } else {
           this.member_of_admin_unit.push(membership.admin_unit);
         }

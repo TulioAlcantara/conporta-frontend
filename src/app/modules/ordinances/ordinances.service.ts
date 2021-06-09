@@ -20,7 +20,7 @@ import { PaginatedResponse } from '../../shared/models/paginated_response';
 export class OrdinancesService {
   constructor(private http: HttpClient) {}
 
-  loadAllOrdinances(
+  loadOrdinancesFromUserAdminUnits(
     searchFilter?: string
   ): Observable<PaginatedResponse<Ordinance>> {
     let params = new HttpParams();
@@ -37,10 +37,21 @@ export class OrdinancesService {
     );
   }
 
-  //TODO: INCREMENTAR NÚMERO DE ULTIMA PORTARIA PROPOSTA/EXPEDIDA NA UA RESPONSAVEL PELA PORTARIA;
-  updateOrdinance(ordinance: PartialOrdinance): Observable<Ordinance> {
+  loadOrdinanceWithMentionToUser(userMembershipsIdList: number[]): Observable<Ordinance[]> {
+    let params = new HttpParams();
+    params = params.append('user_memberships', userMembershipsIdList.toString());
+    return this.http.get<Ordinance[]>(
+      `${environment.apiBaseUrl}/user-mentioned-ordinances-list/`,
+      { params: params }
+    );
+  }
+
+  updateOrdinance(
+    ordinance: PartialOrdinance,
+    statusChangedFromProposedToIssued: boolean
+  ): Observable<Ordinance> {
     return this.http.patch<Ordinance>(
-      `${environment.apiBaseUrl}/ordinance/${ordinance.id}/`,
+      `${environment.apiBaseUrl}/ordinance/${ordinance.id}/?ordinance-issued=${statusChangedFromProposedToIssued}`,
       ordinance
     );
   }

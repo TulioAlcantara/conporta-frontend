@@ -2,6 +2,7 @@ import { AdminUnitMember } from './admin-unit';
 
 export class Ordinance {
   admin_unit_initials: string = '';
+  admin_unit: number = 0
   author: number = 0;
   citations = [];
   description: string = '';
@@ -26,6 +27,7 @@ export class Ordinance {
 
 export class PartialOrdinance {
   admin_unit_initials: string = '';
+  admin_unit: number = 0
   author: number = 0;
   description: string = '';
   dou_publication_date: string = '';

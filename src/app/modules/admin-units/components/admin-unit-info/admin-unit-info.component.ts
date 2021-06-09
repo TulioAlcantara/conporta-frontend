@@ -72,7 +72,7 @@ export class AdminUnitInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.authService.userProfile);
+    console.log(this.authService.userCompleteProfile);
     this.subscribeProfileAutoComplete();
     this.subscribeParentAdminUnitAutocomplete();
     this.route.params.subscribe((params) => {

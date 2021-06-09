@@ -23,6 +23,7 @@ export class OrdinanceInfoComponent implements OnInit {
   selectedOrdinance: Ordinance = new Ordinance();
   ordinanceStatusEnum = Utils.enumEntriesToSelect(OrdinanceStatusEnum);
   isBoss = false;
+  ordinanceOriginalStatus: number = 1;
   ordinanceFormGroup = this.formBuilder.group({
     id: [0, Validators.required],
     admin_unit_initials: [''],
@@ -34,7 +35,7 @@ export class OrdinanceInfoComponent implements OnInit {
     identifier: [''],
     sei_process_number: [''],
     start_date: ['', Validators.required],
-    status: ['', Validators.required],
+    status: [1, Validators.required],
     summary: ['', Validators.required],
     theme: ['', Validators.required],
     sequential_id: [''],
@@ -60,6 +61,8 @@ export class OrdinanceInfoComponent implements OnInit {
         this.loadOrdinanceInfo();
       } else {
         this.isLoading = false;
+        this.ordinanceFormGroup.controls['status'].setValue(1);
+        this.ordinanceFormGroup.controls['status'].disable();
       }
     });
   }
@@ -70,6 +73,7 @@ export class OrdinanceInfoComponent implements OnInit {
       .subscribe((ordinance) => {
         this.selectedOrdinance = ordinance;
         this.ordinanceFormGroup.patchValue(this.selectedOrdinance);
+        this.ordinanceOriginalStatus = ordinance.status;
         this.isLoading = false;
       });
   }
@@ -77,41 +81,55 @@ export class OrdinanceInfoComponent implements OnInit {
   saveOrdinance(): void {
     this.isLoading = true;
     let partialOrdinance = new PartialOrdinance(this.ordinanceFormGroup.value);
-
-    if (this.isNewOrdinance) {
-      partialOrdinance.expedition_date = new Date().toISOString();
-      partialOrdinance.expedition_year = new Date().getFullYear();
-      //TODO: Validar casos de inserção do campo sequential_id, expedition_date (dependem de UA unidade externa)
-      partialOrdinance.admin_unit_initials = this.authService.userCompleteProfile.boss_of_admin_unit.initials;
-      partialOrdinance.identifier = this.buildOrdinanceIdentifier(
-        partialOrdinance
-      );
-
-      this.ordinancesService
-        .createOrdinance(partialOrdinance)
-        .subscribe((newOrdinance) => {
-          this.snackBar.open('Portaria criada com sucesso!', 'FECHAR', {
-            duration: 5000,
-          });
-          this.selectedOrdinanceId = newOrdinance.id;
-          this.isLoading = false;
-          return;
-        });
-    } else {
-      this.ordinancesService
-        .updateOrdinance(partialOrdinance)
-        .subscribe((updatedOrdinance) => {
-          this.snackBar.open('Portaria salva com sucesso!', 'FECHAR', {
-            duration: 5000,
-          });
-          this.selectedOrdinanceId = updatedOrdinance.id;
-          this.isLoading = false;
-          return;
-        });
-    }
+    this.isNewOrdinance
+      ? this.createOrdinance(partialOrdinance)
+      : this.updateOrdinance(partialOrdinance);
   }
 
   buildOrdinanceIdentifier(ordinance: PartialOrdinance): string {
     return `${ordinance.admin_unit_initials}${ordinance.expedition_year}${ordinance.sequential_id}`;
+  }
+
+  createOrdinance(partialOrdinance: PartialOrdinance): void {
+    partialOrdinance.expedition_date = new Date().toISOString();
+    partialOrdinance.expedition_year = new Date().getFullYear();
+    partialOrdinance.status = 1;
+    //TODO: Validar casos de inserção do campo sequential_id, expedition_date (dependem de UA unidade externa)
+    partialOrdinance.admin_unit_initials = this.authService.userCompleteProfile.boss_of_admin_unit.initials;
+    partialOrdinance.admin_unit = this.authService.userCompleteProfile.boss_of_admin_unit.id;
+    partialOrdinance.author = this.authService.userCompleteProfile.boss_of_admin_unit_membership.id;
+    partialOrdinance.identifier = this.buildOrdinanceIdentifier(
+      partialOrdinance
+    );
+    this.ordinancesService
+      .createOrdinance(partialOrdinance)
+      .subscribe((newOrdinance) => {
+        this.snackBar.open('Portaria criada com sucesso!', 'FECHAR', {
+          duration: 5000,
+        });
+        this.selectedOrdinanceId = newOrdinance.id;
+        this.isLoading = false;
+        this.ordinanceFormGroup.controls['status'].enable();
+        return;
+      });
+  }
+
+  updateOrdinance(partialOrdinance: PartialOrdinance): void {
+    let statusChangedFromProposedToIssued: boolean = false;
+
+    statusChangedFromProposedToIssued =
+      this.ordinanceOriginalStatus == OrdinanceStatusEnum.PROPOSTA &&
+      this.ordinanceOriginalStatus != partialOrdinance.status;
+
+    this.ordinancesService
+      .updateOrdinance(partialOrdinance, statusChangedFromProposedToIssued)
+      .subscribe((updatedOrdinance) => {
+        this.snackBar.open('Portaria salva com sucesso!', 'FECHAR', {
+          duration: 5000,
+        });
+        this.selectedOrdinanceId = updatedOrdinance.id;
+        this.isLoading = false;
+        return;
+      });
   }
 }
