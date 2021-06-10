@@ -61,18 +61,22 @@ export class OrdinanceMembersComponent implements OnInit {
     this.subscribeAdminUnitMemberAutoComplete();
   }
 
-  loadOrdinanceMembers(): void {
+  loadOrdinanceMembers(refreshMentionValue = true): void {
     this.ordinancesService
       .loadOrdinanceMembers(this.ordinanceId)
       .subscribe((ordinanceMembers) => {
         this.ordinanceMemberList = ordinanceMembers;
-        let userIsMentionedMembership = ordinanceMembers.find(
-          (ordinanceMember) =>
-            ordinanceMember.member.profile.id ==
-            this.authService.userCompleteProfile.profile.id
-        );
-        if (userIsMentionedMembership && !userIsMentionedMembership.date) {
-          this.mentionedUserMembershipId = userIsMentionedMembership.member.id;
+        if (refreshMentionValue) {
+          let userIsMentionedMembership = ordinanceMembers.find(
+            (ordinanceMember) =>
+              ordinanceMember.member.profile.id ==
+                this.authService.userCompleteProfile.profile.id &&
+              ordinanceMember.ordinance == this.ordinanceId
+          );
+          if (userIsMentionedMembership && !userIsMentionedMembership.date) {
+            this.mentionedUserMembershipId =
+              userIsMentionedMembership.member.id;
+          }
         }
       });
   }
@@ -134,13 +138,16 @@ export class OrdinanceMembersComponent implements OnInit {
 
   ordinanceMemberAwareness(): void {
     this.ordinancesService
-      .ordinanceMemberAwareness(this.mentionedUserMembershipId)
+      .ordinanceMemberAwareness(
+        this.mentionedUserMembershipId,
+        this.ordinanceId
+      )
       .subscribe(() => {
         this.snackBar.open('Referência confirmada com sucesso!', 'FECHAR', {
           duration: 5000,
         });
         this.mentionedUserMembershipId = 0;
-        this.loadOrdinanceMembers();
+        this.loadOrdinanceMembers(false);
       });
   }
 }

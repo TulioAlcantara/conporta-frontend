@@ -6,13 +6,13 @@
                 <h1 *ngIf="this.selectedOrdinanceId == 0">Nova Portaria</h1>
             </span>
             <div class="mb-1 auto-size-btn-col" *ngIf="isBoss">
-                <button  mat-button mat-raised-button class="float-right" color="accent" type="button">
+                <button mat-button mat-raised-button class="float-right" color="accent" type="button">
                     <mat-icon><span class="material-icons-outlined">
                             picture_as_pdf
                         </span></mat-icon>PDF
                 </button>
-                <button *ngIf="notificationId != 0" mat-button mat-stroked-button color="primary" class="float-right" type="button"
-                    (click)="notificationAwareness()" [disabled]="!ordinanceFormGroup.valid">
+                <button *ngIf="notificationId != 0" mat-button mat-stroked-button color="primary" class="float-right"
+                    type="button" (click)="notificationAwareness()" [disabled]="!ordinanceFormGroup.valid">
                     <mat-icon>check</mat-icon>CONFIRMAR NOTIFICAÇÃO
                 </button>
                 <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
@@ -20,11 +20,15 @@
                     <mat-icon>save</mat-icon>SALVAR
                 </button>
             </div>
-            <div class="mb-1 col-2" *ngIf="!isBoss">
-                <span></span>
-                <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
-                    [disabled]="!ordinanceFormGroup.valid">
-                    <mat-icon>save</mat-icon>SALVAR
+            <div class="mb-1 auto-size-btn-col" *ngIf="!isBoss">
+                <button mat-button mat-raised-button class="float-right" color="accent" type="button">
+                    <mat-icon><span class="material-icons-outlined">
+                            picture_as_pdf
+                        </span></mat-icon>PDF
+                </button>
+                <button *ngIf="notificationId != 0" mat-button mat-stroked-button color="primary" class="float-right"
+                    type="button" (click)="notificationAwareness()" [disabled]="!ordinanceFormGroup.valid">
+                    <mat-icon>check</mat-icon>CONFIRMAR NOTIFICAÇÃO
                 </button>
             </div>
 

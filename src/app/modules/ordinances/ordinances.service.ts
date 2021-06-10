@@ -57,9 +57,15 @@ export class OrdinancesService {
     );
   }
 
-  ordinanceMemberAwareness(mentionedUserMembershipId: number) {
+  ordinanceMemberAwareness(
+    mentionedUserMembershipId: number,
+    ordinanceId: number
+  ) {
+    let params = new HttpParams();
+    params = params.append('ordinance', ordinanceId.toString());
     return this.http.get(
-      `${environment.apiBaseUrl}/ordinancemember/${mentionedUserMembershipId}/awareness/`
+      `${environment.apiBaseUrl}/adminunitmember/${mentionedUserMembershipId}/ordinance_awareness/`,
+      {params : params}
     );
   }
 

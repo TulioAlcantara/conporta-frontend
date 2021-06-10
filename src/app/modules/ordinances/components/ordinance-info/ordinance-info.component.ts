@@ -57,6 +57,7 @@ export class OrdinanceInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.isBoss = this.authService.userCompleteProfile.is_boss;
+    if (!this.isBoss) this.ordinanceFormGroup.disable();
     this.route.params.subscribe((params) => {
       this.selectedOrdinanceId = +params['id'];
       if (this.selectedOrdinanceId != 0) {
