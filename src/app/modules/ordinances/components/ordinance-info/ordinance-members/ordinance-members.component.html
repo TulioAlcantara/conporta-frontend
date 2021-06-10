@@ -5,13 +5,24 @@
     </span>
     <div class="mb-1">
         <div class="two-cols" *ngIf="!isAddingOrdinanceMember && isBoss">
-            <span></span>
+            <button *ngIf="mentionedUserMembershipId != 0" mat-button mat-stroked-button color="primary" type="button"
+                (click)="ordinanceMemberAwareness()">
+                <mat-icon>check</mat-icon>CONFIRMAR REFERÊNCIA
+            </button>
+            <span *ngIf="mentionedUserMembershipId == 0"></span>
             <button mat-button mat-raised-button color="accent" type="button" (click)="addOrdinanceMember()">
                 <mat-icon>add</mat-icon>NOVA REFERÊNCIA
             </button>
         </div>
 
-        <div class="two-cols" *ngIf="isAddingOrdinanceMember">
+        <div class="auto-size-btn-col" *ngIf="!isAddingOrdinanceMember && !isBoss">
+            <button *ngIf="mentionedUserMembershipId != 0" mat-button mat-stroked-button color="primary" type="button"
+                (click)="ordinanceMemberAwareness()">
+                <mat-icon>check</mat-icon>CONFIRMAR REFERÊNCIA
+            </button>
+        </div>
+
+        <div class="auto-size-btn-col" *ngIf="isAddingOrdinanceMember">
             <button mat-button mat-raised-button color="warn" type="button" (click)="cancelNewOrdinanceMember()">
                 <mat-icon>close</mat-icon>CANCELAR
             </button>

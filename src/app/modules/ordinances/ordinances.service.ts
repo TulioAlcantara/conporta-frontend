@@ -57,6 +57,12 @@ export class OrdinancesService {
     );
   }
 
+  ordinanceMemberAwareness(mentionedUserMembershipId: number) {
+    return this.http.get(
+      `${environment.apiBaseUrl}/ordinancemember/${mentionedUserMembershipId}/awareness/`
+    );
+  }
+
   loadOrdinanceWithMentionToUser(
     userMembershipsIdList: number[]
   ): Observable<Ordinance[]> {
@@ -67,6 +73,20 @@ export class OrdinancesService {
     );
     return this.http.get<Ordinance[]>(
       `${environment.apiBaseUrl}/user-mentioned-ordinances-list/`,
+      { params: params }
+    );
+  }
+
+  loadUserNotificationsOrdinances(
+    userMembershipsIdList: number[]
+  ): Observable<Ordinance[]> {
+    let params = new HttpParams();
+    params = params.append(
+      'user_memberships',
+      userMembershipsIdList.toString()
+    );
+    return this.http.get<Ordinance[]>(
+      `${environment.apiBaseUrl}/user-notifications-ordinances-list/`,
       { params: params }
     );
   }

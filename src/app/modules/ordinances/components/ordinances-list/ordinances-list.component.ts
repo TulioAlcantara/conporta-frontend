@@ -18,9 +18,10 @@ export class OrdinancesListComponent implements OnInit {
   searchFilter: string = '';
   isLoading: boolean = true;
   isLoadingUserMentionedOrdinances: boolean = true;
+  isLoadingUserNotifications: boolean = false;
   ordinancesFromUserAdminUnitList: Ordinance[] = [];
   userMentionedOrdinancesList: Ordinance[] = [];
-  ordinancesWithNotificationToUserList: Ordinance[] = [];
+  userNotificationsOrdinances: Ordinance[] = [];
   displayedColumns: string[] = ['id', 'theme', 'expedition_date'];
   userAdminUnits: string[] = [];
   userAdminUnitsString: string = '';
@@ -40,6 +41,10 @@ export class OrdinancesListComponent implements OnInit {
     this.loadOrdinancesFromUserAdminUnits();
     this.subscribeToSearchFilter();
     this.loadOrdinanceWithMentionToUser();
+    if(this.isBoss){
+      this.isLoadingUserNotifications = true
+      this.loadUserNotificationsOrdinances()
+    }
   }
 
   loadOrdinancesFromUserAdminUnits(): void {
@@ -60,14 +65,14 @@ export class OrdinancesListComponent implements OnInit {
     if (userMembershipsIdList.length > 0) {
       this.ordinancesService
         .loadOrdinanceWithMentionToUser(userMembershipsIdList)
-        .subscribe((results) => {
-          this.userMentionedOrdinancesList = results;
+        .subscribe((ordinances) => {
+          this.userMentionedOrdinancesList = ordinances;
           this.isLoadingUserMentionedOrdinances = false;
         });
     }
   }
 
-  loadOrdinancesWithNotificationToUser(): void {
+  loadUserNotificationsOrdinances(): void {
     let userMembershipsIdList =
       this.authService.userCompleteProfile.memberships.map(
         (membership) => membership.id
@@ -75,10 +80,10 @@ export class OrdinancesListComponent implements OnInit {
 
     if (userMembershipsIdList.length > 0) {
       this.ordinancesService
-        .loadOrdinanceWithMentionToUser(userMembershipsIdList)
-        .subscribe((results) => {
-          this.userMentionedOrdinancesList = results;
-          this.isLoadingUserMentionedOrdinances = false;
+        .loadUserNotificationsOrdinances(userMembershipsIdList)
+        .subscribe((ordinances) => {
+          this.userNotificationsOrdinances = ordinances;
+          this.isLoadingUserNotifications = false;
         });
     }
   }

@@ -5,8 +5,8 @@
                 <h1 *ngIf="this.selectedOrdinanceId != 0">Portaria {{selectedOrdinanceId}}</h1>
                 <h1 *ngIf="this.selectedOrdinanceId == 0">Nova Portaria</h1>
             </span>
-            <div class="mb-1 auto-size-btn-col">
-                <button *ngIf="isBoss" mat-button mat-raised-button class="float-right" color="accent" type="button">
+            <div class="mb-1 auto-size-btn-col" *ngIf="isBoss">
+                <button  mat-button mat-raised-button class="float-right" color="accent" type="button">
                     <mat-icon><span class="material-icons-outlined">
                             picture_as_pdf
                         </span></mat-icon>PDF
@@ -15,6 +15,13 @@
                     (click)="notificationAwareness()" [disabled]="!ordinanceFormGroup.valid">
                     <mat-icon>check</mat-icon>CONFIRMAR NOTIFICAÇÃO
                 </button>
+                <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
+                    [disabled]="!ordinanceFormGroup.valid">
+                    <mat-icon>save</mat-icon>SALVAR
+                </button>
+            </div>
+            <div class="mb-1 col-2" *ngIf="!isBoss">
+                <span></span>
                 <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
                     [disabled]="!ordinanceFormGroup.valid">
                     <mat-icon>save</mat-icon>SALVAR
@@ -82,11 +89,6 @@
                 <mat-label>Número sequencial</mat-label>
                 <input matInput type="text" formControlName="sequential_id">
             </mat-form-field>
-
-            <!-- <mat-form-field appearance="fill">
-                <mat-label>Sigla da Unidade Admin.</mat-label>
-                <input matInput type="text" formControlName="admin_unit_initials">
-            </mat-form-field> -->
         </div>
 
         <div class="one-col">

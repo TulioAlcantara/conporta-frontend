@@ -160,6 +160,7 @@ export class OrdinanceInfoComponent implements OnInit {
           duration: 5000,
         });
         this.notificationId = 0;
+        this.loadOrdinanceInfo();
       });
   }
 }

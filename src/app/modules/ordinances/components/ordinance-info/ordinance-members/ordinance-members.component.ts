@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime } from 'rxjs/operators';
+import { AuthService } from '../../../../../auth/auth.service';
 import { AdminUnitMember } from '../../../../../shared/models/admin-unit';
 import {
   OrdinanceMember,
@@ -22,6 +23,7 @@ export class OrdinanceMembersComponent implements OnInit {
   @Input() isBoss: boolean = false;
   ordinanceMemberList: OrdinanceMember[] = [];
   nonCitedAdminUnitMembers: AdminUnitMember[] = [];
+  mentionedUserMembershipId: number = 0;
   ordinanceMemberReferenceTypeEnum = OrdinanceMemberReferenceTypeEnum;
   ordinanceMemberOccupationTypeEnum = OrdinanceMemberOccupationTypeEnum;
   ordinanceMemberReferenceTypeSelect = Utils.enumEntriesToSelect(
@@ -37,7 +39,7 @@ export class OrdinanceMembersComponent implements OnInit {
     'workload',
     'member',
     'admin_unit',
-    'date'
+    'date',
   ];
   ordinanceMemberFormGroup = this.formBuilder.group({
     id: ['', Validators.required],
@@ -50,7 +52,8 @@ export class OrdinanceMembersComponent implements OnInit {
   constructor(
     private ordinancesService: OrdinancesService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -61,8 +64,16 @@ export class OrdinanceMembersComponent implements OnInit {
   loadOrdinanceMembers(): void {
     this.ordinancesService
       .loadOrdinanceMembers(this.ordinanceId)
-      .subscribe((members) => {
-        this.ordinanceMemberList = members;
+      .subscribe((ordinanceMembers) => {
+        this.ordinanceMemberList = ordinanceMembers;
+        let userIsMentionedMembership = ordinanceMembers.find(
+          (ordinanceMember) =>
+            ordinanceMember.member.profile.id ==
+            this.authService.userCompleteProfile.profile.id
+        );
+        if (userIsMentionedMembership && !userIsMentionedMembership.date) {
+          this.mentionedUserMembershipId = userIsMentionedMembership.member.id;
+        }
       });
   }
 
@@ -119,5 +130,17 @@ export class OrdinanceMembersComponent implements OnInit {
     return adminUnitMember
       ? `${adminUnitMember.profile.name} - ${adminUnitMember.admin_unit.name}`
       : '';
+  }
+
+  ordinanceMemberAwareness(): void {
+    this.ordinancesService
+      .ordinanceMemberAwareness(this.mentionedUserMembershipId)
+      .subscribe(() => {
+        this.snackBar.open('Referência confirmada com sucesso!', 'FECHAR', {
+          duration: 5000,
+        });
+        this.mentionedUserMembershipId = 0;
+        this.loadOrdinanceMembers();
+      });
   }
 }
