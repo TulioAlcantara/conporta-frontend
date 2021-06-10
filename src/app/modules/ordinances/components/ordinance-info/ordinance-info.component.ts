@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../auth/auth.service';
 import {
   Ordinance,
+  OrdinanceNotification,
   OrdinanceStatusEnum,
   PartialOrdinance,
 } from '../../../../shared/models/ordinance';
@@ -23,6 +24,7 @@ export class OrdinanceInfoComponent implements OnInit {
   selectedOrdinance: Ordinance = new Ordinance();
   ordinanceStatusEnum = Utils.enumEntriesToSelect(OrdinanceStatusEnum);
   isBoss = false;
+  notificationId: number = 0;
   ordinanceOriginalStatus: number = 1;
   ordinanceFormGroup = this.formBuilder.group({
     id: [0, Validators.required],
@@ -59,6 +61,9 @@ export class OrdinanceInfoComponent implements OnInit {
       this.selectedOrdinanceId = +params['id'];
       if (this.selectedOrdinanceId != 0) {
         this.loadOrdinanceInfo();
+        if (this.isBoss) {
+          this.loadUserNotification();
+        }
       } else {
         this.isLoading = false;
         this.ordinanceFormGroup.controls['status'].setValue(1);
@@ -75,6 +80,20 @@ export class OrdinanceInfoComponent implements OnInit {
         this.ordinanceFormGroup.patchValue(this.selectedOrdinance);
         this.ordinanceOriginalStatus = ordinance.status;
         this.isLoading = false;
+      });
+  }
+
+  loadUserNotification() {
+    console.log('cheguei aqui');
+    let userAdminUnitMembership = this.authService.userCompleteProfile
+      .boss_of_admin_unit_membership.id;
+    this.ordinancesService
+      .loadOrdinanceUserNotification(
+        this.selectedOrdinanceId,
+        userAdminUnitMembership
+      )
+      .subscribe((notification: OrdinanceNotification[]) => {
+        this.notificationId = notification.length ? notification[0].id : 0;
       });
   }
 
@@ -130,6 +149,17 @@ export class OrdinanceInfoComponent implements OnInit {
         this.selectedOrdinanceId = updatedOrdinance.id;
         this.isLoading = false;
         return;
+      });
+  }
+
+  notificationAwareness(): void {
+    this.ordinancesService
+      .notificationAwareness(this.notificationId)
+      .subscribe(() => {
+        this.snackBar.open('Notificação confirmada com sucesso!', 'FECHAR', {
+          duration: 5000,
+        });
+        this.notificationId = 0;
       });
   }
 }

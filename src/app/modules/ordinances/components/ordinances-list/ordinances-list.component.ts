@@ -20,6 +20,7 @@ export class OrdinancesListComponent implements OnInit {
   isLoadingUserMentionedOrdinances: boolean = true;
   ordinancesFromUserAdminUnitList: Ordinance[] = [];
   userMentionedOrdinancesList: Ordinance[] = [];
+  ordinancesWithNotificationToUserList: Ordinance[] = [];
   displayedColumns: string[] = ['id', 'theme', 'expedition_date'];
   userAdminUnits: string[] = [];
   userAdminUnitsString: string = '';
@@ -51,6 +52,22 @@ export class OrdinancesListComponent implements OnInit {
   }
 
   loadOrdinanceWithMentionToUser(): void {
+    let userMembershipsIdList =
+      this.authService.userCompleteProfile.memberships.map(
+        (membership) => membership.id
+      );
+
+    if (userMembershipsIdList.length > 0) {
+      this.ordinancesService
+        .loadOrdinanceWithMentionToUser(userMembershipsIdList)
+        .subscribe((results) => {
+          this.userMentionedOrdinancesList = results;
+          this.isLoadingUserMentionedOrdinances = false;
+        });
+    }
+  }
+
+  loadOrdinancesWithNotificationToUser(): void {
     let userMembershipsIdList =
       this.authService.userCompleteProfile.memberships.map(
         (membership) => membership.id

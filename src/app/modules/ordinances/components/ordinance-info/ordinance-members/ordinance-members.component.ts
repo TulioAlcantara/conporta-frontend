@@ -37,6 +37,7 @@ export class OrdinanceMembersComponent implements OnInit {
     'workload',
     'member',
     'admin_unit',
+    'date'
   ];
   ordinanceMemberFormGroup = this.formBuilder.group({
     id: ['', Validators.required],

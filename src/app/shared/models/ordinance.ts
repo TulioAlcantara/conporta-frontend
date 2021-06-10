@@ -2,7 +2,7 @@ import { AdminUnitMember } from './admin-unit';
 
 export class Ordinance {
   admin_unit_initials: string = '';
-  admin_unit: number = 0
+  admin_unit: number = 0;
   author: number = 0;
   citations = [];
   description: string = '';
@@ -27,7 +27,7 @@ export class Ordinance {
 
 export class PartialOrdinance {
   admin_unit_initials: string = '';
-  admin_unit: number = 0
+  admin_unit: number = 0;
   author: number = 0;
   description: string = '';
   dou_publication_date: string = '';
@@ -93,6 +93,14 @@ export class Directive {
   public constructor(init?: Partial<Directive>) {
     Object.assign(this, init);
   }
+}
+
+export interface OrdinanceNotification {
+  id: number;
+  date: number;
+  ordinance: number;
+  admin_unit: number;
+  admin_unit_member: number;
 }
 
 export enum OrdinanceStatusEnum {

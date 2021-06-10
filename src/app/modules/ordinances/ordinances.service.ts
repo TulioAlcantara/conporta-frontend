@@ -9,6 +9,7 @@ import {
   Directive,
   Ordinance,
   OrdinanceMember,
+  OrdinanceNotification,
   PartialOrdinance,
   PartialOrdinanceMember,
 } from '../../shared/models/ordinance';
@@ -37,9 +38,33 @@ export class OrdinancesService {
     );
   }
 
-  loadOrdinanceWithMentionToUser(userMembershipsIdList: number[]): Observable<Ordinance[]> {
+  loadOrdinanceUserNotification(
+    ordinanceId: number,
+    memberId: number
+  ): Observable<OrdinanceNotification[]> {
     let params = new HttpParams();
-    params = params.append('user_memberships', userMembershipsIdList.toString());
+    params = params.append('ordinance', ordinanceId.toString());
+    params = params.append('member', memberId.toString());
+    return this.http.get<OrdinanceNotification[]>(
+      `${environment.apiBaseUrl}/notification/`,
+      { params: params }
+    );
+  }
+
+  notificationAwareness(notificationId: number) {
+    return this.http.get(
+      `${environment.apiBaseUrl}/notification/${notificationId}/awareness/`
+    );
+  }
+
+  loadOrdinanceWithMentionToUser(
+    userMembershipsIdList: number[]
+  ): Observable<Ordinance[]> {
+    let params = new HttpParams();
+    params = params.append(
+      'user_memberships',
+      userMembershipsIdList.toString()
+    );
     return this.http.get<Ordinance[]>(
       `${environment.apiBaseUrl}/user-mentioned-ordinances-list/`,
       { params: params }

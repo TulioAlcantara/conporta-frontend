@@ -1,15 +1,19 @@
 <div *ngIf="!isLoading">
     <form [formGroup]="ordinanceFormGroup" (ngSubmit)="saveOrdinance()">
-        <div class="two-cols">
+        <div class="title-row">
             <span>
                 <h1 *ngIf="this.selectedOrdinanceId != 0">Portaria {{selectedOrdinanceId}}</h1>
                 <h1 *ngIf="this.selectedOrdinanceId == 0">Nova Portaria</h1>
             </span>
-            <div class="mb-1 two-cols" *ngIf="isBoss">
-                <button mat-button mat-raised-button class="float-right" color="accent" type="button">
+            <div class="mb-1 auto-size-btn-col">
+                <button *ngIf="isBoss" mat-button mat-raised-button class="float-right" color="accent" type="button">
                     <mat-icon><span class="material-icons-outlined">
                             picture_as_pdf
-                        </span></mat-icon>GERAR PDF
+                        </span></mat-icon>PDF
+                </button>
+                <button *ngIf="notificationId != 0" mat-button mat-stroked-button color="primary" class="float-right" type="button"
+                    (click)="notificationAwareness()" [disabled]="!ordinanceFormGroup.valid">
+                    <mat-icon>check</mat-icon>CONFIRMAR NOTIFICAÇÃO
                 </button>
                 <button mat-button mat-raised-button class="float-right" color="primary" type="submit"
                     [disabled]="!ordinanceFormGroup.valid">
@@ -17,15 +21,6 @@
                 </button>
             </div>
 
-            <div class="mb-1 two-cols" *ngIf="!isBoss">
-                <span></span>
-                <button mat-button mat-raised-button class="float-right" color="accent" type="button">
-                    <mat-icon><span class="material-icons-outlined">
-                            picture_as_pdf
-                        </span></mat-icon>GERAR PDF
-                </button>
-
-            </div>
         </div>
 
         <div class="one-col">

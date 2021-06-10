@@ -93,6 +93,16 @@ mat-divider {
   grid-template-columns: 1fr;
 }
 
+.auto-size-btn-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 .float-right {
   float: right;
 }
@@ -125,7 +135,7 @@ mat-divider {
   margin-left: 1rem;
 }
 
-.m-auto{
+.m-auto {
   margin: auto;
 }
 
