@@ -67,6 +67,7 @@ export class CitationsComponent implements OnInit {
   }
 
   addCitation(): void {
+    this.citationFormGroup.reset();
     this.isAddingCitation = true;
     this.ordinancesService
       .loadNonCitedOrdinances(this.ordinanceId, '')

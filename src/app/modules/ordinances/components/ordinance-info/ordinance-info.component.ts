@@ -12,6 +12,8 @@ import {
 } from '../../../../shared/models/ordinance';
 import Utils from '../../../../shared/utils';
 import { OrdinancesService } from '../../ordinances.service';
+import jsPDF, * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-ordinance-info',
@@ -35,12 +37,12 @@ export class OrdinanceInfoComponent implements OnInit {
     end_date: ['', Validators.required],
     expedition_date: [''],
     identifier: [''],
-    sei_process_number: [''],
+    sei_process_number: [0],
     start_date: ['', Validators.required],
     status: [1, Validators.required],
     summary: ['', Validators.required],
     theme: ['', Validators.required],
-    sequential_id: [''],
+    sequential_id: ['', Validators.required],
   });
 
   get isNewOrdinance() {
@@ -163,5 +165,24 @@ export class OrdinanceInfoComponent implements OnInit {
         this.notificationId = 0;
         this.loadOrdinanceInfo();
       });
+  }
+
+  generatePDF(): void {
+    this.ordinanceFormGroup.enable();
+    let DATA = document.getElementById('pdf');
+      
+    html2canvas(DATA!).then(canvas => {
+        
+        let fileWidth = 208;
+        let fileHeight = canvas.height * fileWidth / canvas.width;
+        
+        const FILEURI = canvas.toDataURL('image/png')
+        let PDF = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+        
+        PDF.save('angular-demo.pdf');
+        this.ordinanceFormGroup.disable();
+    });     
   }
 }

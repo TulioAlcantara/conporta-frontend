@@ -4,11 +4,18 @@ nav {
     height: 2rem;
   }
 
-  .logout-btn {
+  .right-col{
     margin: auto 1rem auto auto;
-    .logout-btn-icon {
+    .user-name{
       color: white;
-      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+    .logout-btn {
+      .logout-btn-icon {
+        color: white;
+        cursor: pointer;
+      }
     }
   }
+ 
 }

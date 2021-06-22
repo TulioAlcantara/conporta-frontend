@@ -13,6 +13,8 @@ import { UserLogin } from '../shared/models/user-login';
 })
 export class AuthService {
   loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  loggedUserName = new BehaviorSubject<string>('');
+  userIsBoss = new BehaviorSubject<boolean>(false);
   userCompleteProfile: CompleteProfile = new CompleteProfile();
 
   constructor(private Router: Router, private http: HttpClient) {}
@@ -55,5 +57,7 @@ export class AuthService {
 
   buildCompleteUserProfile(userMemberships: AdminUnitMember[]): void {
     this.userCompleteProfile = new CompleteProfile(userMemberships);
+    this.loggedUserName.next(this.userCompleteProfile.profile.name);
+    this.userIsBoss.next(this.userCompleteProfile.is_boss);
   }
 }

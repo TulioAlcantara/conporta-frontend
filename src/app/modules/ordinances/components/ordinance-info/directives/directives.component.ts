@@ -49,6 +49,7 @@ export class DirectivesComponent implements OnInit {
 
   addDirective(): void {
     this.isAddingDirective = true;
+    this.directiveFormGroup.reset();
   }
 
   saveNewDirective(): void {

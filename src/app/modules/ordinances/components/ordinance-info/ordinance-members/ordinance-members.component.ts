@@ -94,6 +94,7 @@ export class OrdinanceMembersComponent implements OnInit {
   }
 
   addOrdinanceMember(): void {
+    this.ordinanceMemberFormGroup.reset();
     this.isAddingOrdinanceMember = true;
     this.ordinancesService
       .loadNonCitedAdminUnitMembers(this.ordinanceId)
@@ -108,7 +109,6 @@ export class OrdinanceMembersComponent implements OnInit {
   }
 
   saveNewOrdinanceMember(): void {
-    console.log('SALVANDO');
     let newMember = new PartialOrdinanceMember(
       this.ordinanceMemberFormGroup.value
     );

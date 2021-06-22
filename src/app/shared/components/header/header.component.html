@@ -1,14 +1,28 @@
 <nav mat-tab-nav-bar back [color]="'white'" [backgroundColor]="'primary'">
-  <img class="ufg-logo" src="assets/ufg-logo.svg" />
+  <img class="ufg-logo left-col" src="assets/ufg-logo.svg" />
 
-  <div *ngIf="isLoggedIn$ | async">
-    <a mat-tab-link *ngFor="let link of links" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive"
-      [routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
-      <b>{{ link.label }}</b>
-    </a>
+  <div class="center-col" *ngIf="isLoggedIn$ | async">
+    <span *ngIf="userIsBoss$ | async">
+      <a mat-tab-link *ngFor="let link of isBosslinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
+        <b>{{ link.label }}</b>
+      </a>
+    </span>
+
+    <span *ngIf="!(userIsBoss$ | async)">
+      <a mat-tab-link *ngFor="let link of regularUserLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }" [active]="rla.isActive">
+        <b>{{ link.label }}</b>
+      </a>
+    </span>
+
   </div>
 
-  <button class="logout-btn" mat-icon-button (click)="logoutUser()" *ngIf="isLoggedIn$ | async">
-    <mat-icon class="logout-btn-icon">logout</mat-icon>
-  </button>
+  <div class="right-col" *ngIf="isLoggedIn$ | async">
+    <span class="user-name">{{userName$ | async}}</span>
+    <button class="logout-btn" mat-icon-button (click)="logoutUser()">
+      <mat-icon class="logout-btn-icon">logout</mat-icon>
+    </button>
+  </div>
+
 </nav>
